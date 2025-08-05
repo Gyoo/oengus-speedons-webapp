@@ -16,7 +16,6 @@ import { HomepageMetadataResolver } from './resolvers/next-marathons-resolver';
 import { UserModule } from './user/user.module';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { OengusCommonModule } from './oengus-common/oengus-common.module';
-import { AboutComponent } from './about/about.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { WebpackTranslateLoader } from '../loader/webpack-translate-loader';
 import { PatronsComponent } from './patrons/patrons.component';
@@ -39,9 +38,6 @@ import { CalendarViewTableComponent } from './calendar/calendar-view-table/calen
 import { CalendarViewRowComponent } from './calendar/calendar-view-row/calendar-view-row.component';
 import { ComponentsModule } from './components/components.module';
 import { RouterModule, Routes } from '@angular/router';
-import { AboutInfoComponent } from './about/about-info/about-info.component';
-import { AboutContactComponent } from './about/about-contact/about-contact.component';
-import { AboutPrivacyComponent } from './about/about-privacy/about-privacy.component';
 import { HeaderBarComponent } from './_layout/header-bar/header-bar.component';
 import { HeaderBarCookiesComponent } from './_layout/header-bar/header-bar-cookies/header-bar-cookies.component';
 import { HeaderBarNavComponent } from './_layout/header-bar/header-bar-nav/header-bar-nav.component';
@@ -104,10 +100,6 @@ const appRoutes: Routes = [
     component: CalendarComponent,
   },
   {
-    path: 'about',
-    component: AboutComponent,
-  },
-  {
     path: 'privacy-policy',
     component: PrivacyPolicyComponent,
   },
@@ -118,10 +110,6 @@ const appRoutes: Routes = [
       patrons: PatronsResolver,
     },
   },
-  /*{
-    path: 'news/kaspersky-partnership',
-    component: KasperskyAnnouncementComponent,
-  },*/
   {
     path: '403',
     component: UnauthorizedComponent,
@@ -137,7 +125,6 @@ const appRoutes: Routes = [
     AppComponent,
     LoginOauthComponent,
     HomepageComponent,
-    AboutComponent,
     PatronsComponent,
     CalendarComponent,
     PageNotFoundComponent,
@@ -154,9 +141,6 @@ const appRoutes: Routes = [
     CalendarViewScheduleComponent,
     CalendarViewTableComponent,
     CalendarViewRowComponent,
-    AboutInfoComponent,
-    AboutContactComponent,
-    AboutPrivacyComponent,
     HeaderBarComponent,
     HeaderBarCookiesComponent,
     HeaderBarNavComponent,
