@@ -23,15 +23,6 @@ import { OengusCommonModule } from '../oengus-common/oengus-common.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { AvailabilitiesResolver } from '../resolvers/availabilities-resolver';
-import { IncentiveManagementComponent } from './incentive-management/incentive-management.component';
-import { IncentivesResolver } from '../resolvers/incentives-resolver';
-import { IncentiveComponent } from './incentive/incentive.component';
-import { CanActivateMarathonIncentivesGuard } from '../guards/can-activate-marathon-incentives-guard.service';
-import { DonateComponent } from './donate/donate.component';
-import { CanActivateMarathonDonationsGuard } from '../guards/can-activate-marathon-donations-guard.service';
-import { DonationsComponent } from './donations/donations.component';
-import { DonationsResolver } from '../resolvers/donations-resolver';
-import { DonationsStatsResolver } from '../resolvers/donations-stats-resolver';
 import { canActivateMarathonActiveGuard } from '../guards/can-activate-marathon-active-guard.service';
 import { SubmissionCategoryComponent } from './submissions/submission-category/submission-category.component';
 import { SubmissionGameComponent } from './submissions/submission-game/submission-game.component';
@@ -39,7 +30,6 @@ import { ButtonsModule } from '../buttons/buttons.module';
 import { GeneralSettingsComponent } from './settings/general-settings/general-settings.component';
 import { SubmissionSettingsComponent } from './settings/submission-settings/submission-settings.component';
 import { DiscordSettingsComponent } from './settings/discord-settings/discord-settings.component';
-import { IncentiveSettingsComponent } from './settings/incentive-settings/incentive-settings.component';
 import { MarathonScheduleExportComponent } from './schedule/marathon-schedule-export/marathon-schedule-export.component';
 import { ElementModule } from '../elements/elements.module';
 import { MarathonScheduleCurrentComponent } from './schedule/marathon-schedule-current/marathon-schedule-current.component';
@@ -205,65 +195,6 @@ const marathonRoutes: Routes = [
           canActivateMarathonSettingsGuard,
           canActivateMarathonActiveGuard,
         ]
-      },
-      {
-        path: 'incentives',
-        component: IncentiveComponent,
-        resolve: {
-          incentives: IncentivesResolver
-        },
-        data: {
-          withLocked: true,
-          withUnapproved: false
-        },
-        canActivate: [
-          isEmailVerifiedGuardGuard,
-          (route, state) => inject(CanActivateMarathonIncentivesGuard).canActivate(route, state)
-
-        ]
-      },
-      {
-        path: 'incentives/manage',
-        component: IncentiveManagementComponent,
-        resolve: {
-          schedule: null,
-          incentives: IncentivesResolver
-        },
-        data: {
-          withLocked: true,
-          withUnapproved: true
-        },
-        canActivate: [
-          isEmailVerifiedGuardGuard,
-          canActivateMarathonSettingsGuard,
-          (route, state) => inject(CanActivateMarathonIncentivesGuard).canActivate(route, state),
-          canActivateMarathonActiveGuard,
-        ]
-      },
-      {
-        path: 'donate',
-        component: DonateComponent,
-        resolve: {
-          incentives: IncentivesResolver
-        },
-        data: {
-          withLocked: false,
-          withUnapproved: false
-        },
-        canActivate: [
-          isEmailVerifiedGuardGuard,
-          CanActivateMarathonDonationsGuard,
-          canActivateMarathonActiveGuard,
-        ]
-      },
-      {
-        path: 'donations',
-        component: DonationsComponent,
-        resolve: {
-          donations: DonationsResolver,
-          stats: DonationsStatsResolver
-        },
-        canActivate: [CanActivateMarathonDonationsGuard]
       }
     ]
   }
@@ -279,16 +210,11 @@ const marathonRoutes: Routes = [
     SubmissionsComponent,
     SelectionComponent,
     ScheduleComponent,
-    IncentiveManagementComponent,
-    IncentiveComponent,
-    DonateComponent,
-    DonationsComponent,
     SubmissionCategoryComponent,
     SubmissionGameComponent,
     GeneralSettingsComponent,
     SubmissionSettingsComponent,
     DiscordSettingsComponent,
-    IncentiveSettingsComponent,
     MarathonScheduleExportComponent,
     MarathonScheduleCurrentComponent,
     MarathonScheduleListComponent,
@@ -348,18 +274,13 @@ const marathonRoutes: Routes = [
     //
   ],
   providers: [
-    CanActivateMarathonIncentivesGuard,
-    CanActivateMarathonDonationsGuard,
     MarathonResolver,
     SubmissionResolver,
     ScheduleBySlugResolver,
     ScheduleByIdResolver,
     SelectionResolver,
-    IncentivesResolver,
     AvailabilitiesResolver,
     ScheduleOverviewResolver,
-    DonationsResolver,
-    DonationsStatsResolver,
   ]
 })
 export class MarathonModule {
