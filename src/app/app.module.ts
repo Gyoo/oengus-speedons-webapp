@@ -21,7 +21,6 @@ import { WebpackTranslateLoader } from '../loader/webpack-translate-loader';
 import { PatronsComponent } from './patrons/patrons.component';
 import { PatronsResolver } from './resolvers/patrons-resolver';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { KasperskyAnnouncementComponent } from './news/kaspersky-announcement/kaspersky-announcement.component';
 import { ButtonsModule } from './buttons/buttons.module';
 import * as Sentry from '@sentry/angular';
 import { HomepageModeratedResolver } from './resolvers/homepage-moderated-resolver';
@@ -128,7 +127,6 @@ const appRoutes: Routes = [
     PatronsComponent,
     CalendarComponent,
     PageNotFoundComponent,
-    KasperskyAnnouncementComponent,
     SignUpComponent,
     LoginComponent,
     WelcomeComponent,
