@@ -16,6 +16,8 @@ export class Category {
   code: string;
   status: string;
   expectedRunnerCount: number;
+  canRace: boolean;
+  highlights: string;
   opponents: Opponent[];
 
   constructor() {
@@ -23,6 +25,7 @@ export class Category {
     this.expectedRunnerCount = 0;
     this.opponents = [];
     this.type = 'SINGLE';
+    this.canRace = false;
   }
 }
 

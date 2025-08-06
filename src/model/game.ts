@@ -4,8 +4,9 @@ export class Game {
   id: number;
   name: string;
   description: string;
+  themes: string;
   console: string;
-  ratio: string;
+  contentWarnings: string;
   categories: Category[];
   emulated: boolean;
   visible: boolean;

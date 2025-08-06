@@ -1,4 +1,4 @@
-<h1 class="title">{{'marathon.submit.title' | translate}}</h1>
+<h1 class="title">{{ 'marathon.submit.title' | translate }}</h1>
 
 <hr/>
 
@@ -6,18 +6,18 @@
   <div class="modal-background"></div>
   <div class="modal-card">
     <header class="modal-card-head">
-      <p class="modal-card-title">{{'marathon.submit.requirements.discord.title' | translate}}</p>
+      <p class="modal-card-title">{{ 'marathon.submit.requirements.discord.title' | translate }}</p>
     </header>
     <section class="modal-card-body">
-      <h5 class="title">{{'marathon.submit.requirements.discord.lead' | translate}}</h5>
-      <p>{{'marathon.submit.requirements.discord.par1' | translate}}</p>
-      <p>{{'marathon.submit.requirements.discord.par2' | translate}}</p>
+      <h5 class="title">{{ 'marathon.submit.requirements.discord.lead' | translate }}</h5>
+      <p>{{ 'marathon.submit.requirements.discord.par1' | translate }}</p>
+      <p>{{ 'marathon.submit.requirements.discord.par2' | translate }}</p>
       @if (!userHasDiscord) {
         <p>
           {{ 'marathon.submit.requirements.discord.syncNotice.0' | translate }}
           <a [routerLink]="'/user/settings' | localize">{{
-            'marathon.submit.requirements.discord.syncNotice.1' | translate
-          }}</a>{{ 'marathon.submit.requirements.discord.syncNotice.2' | translate }}
+              'marathon.submit.requirements.discord.syncNotice.1' | translate
+            }}</a>{{ 'marathon.submit.requirements.discord.syncNotice.2' | translate }}
           <!-- ^ ugly hack for punctuation stuff -->
         </p>
       }
@@ -26,10 +26,11 @@
         <article class="message is-danger">
           <div class="message-body">
             @if (discordErrors.botNotInGuild) {
-              <p>{{'marathon.submit.requirements.discord.errors.botMissing' | translate}}</p>
+              <p>{{ 'marathon.submit.requirements.discord.errors.botMissing' | translate }}</p>
             }
             @if (discordErrors.userNotInGuild) {
-              <p [innerHTML]="'marathon.submit.requirements.discord.errors.userMissing' | translate: { invite: marathonDiscord }"
+              <p
+                [innerHTML]="'marathon.submit.requirements.discord.errors.userMissing' | translate: { invite: marathonDiscord }"
               ></p>
             }
           </div>
@@ -38,107 +39,109 @@
     </section>
     <footer class="modal-card-foot">
       <button class="button is-success"
-        (click)="checkUserInDiscord()"
-        [disabled]="!userHasDiscord || isDiscordCheckLoading"
-        [ngClass]="{ 'is-loading': isDiscordCheckLoading }">
-        {{'marathon.submit.requirements.discord.check' | translate}}
+              (click)="checkUserInDiscord()"
+              [disabled]="!userHasDiscord || isDiscordCheckLoading"
+              [ngClass]="{ 'is-loading': isDiscordCheckLoading }">
+        {{ 'marathon.submit.requirements.discord.check' | translate }}
       </button>
       <button class="button" (click)="goBack()" [disabled]="isDiscordCheckLoading">
-        {{'marathon.submit.requirements.discord.back' | translate}}
+        {{ 'marathon.submit.requirements.discord.back' | translate }}
       </button>
     </footer>
   </div>
 </div>
 
-<app-submit-header />
+<app-submit-header/>
 
 <hr/>
 
 @if (!marathonService.marathon.submitsOpen) {
   <div class="notification is-info">
-    {{'marathon.submit.submitsClosed' | translate}}
+    {{ 'marathon.submit.submitsClosed' | translate }}
   </div>
 }
 
 <form ngForm="submitForm" (ngSubmit)="submit()" #form="ngForm">
-  <h3 class="title is-3">{{'marathon.submit.availabilities.label' | translate}} <br/>
+  <h3 class="title is-3">{{ 'marathon.submit.availabilities.label' | translate }} <br/>
     <span class="is-size-6" [innerHTML]="'footer.text' | translate:{'timezone': timezone}"></span>
     <button type="submit" class="button is-primary is-pulled-right" [ngClass]="{'is-loading': loading}"
             [disabled]="form.invalid || submission.availabilities.length === 0 || submission.games.length === 0 &&
-            submission.opponents.length === 0">{{'action.submit' |
-      translate}}
+            submission.opponents.length === 0">{{
+        'action.submit' |
+          translate
+      }}
     </button>
     @if (submission.id > 0 && !marathonService.marathon.isPrivate) {
       <app-submit-share-buttons
         [gameNames]="gameNames"
-        />
+      />
     }
   </h3>
   @if (marathonService.hasDstChange()) {
-    <p>{{ 'marathon.schedule.dstChange' | translate}}</p>
+    <p>{{ 'marathon.schedule.dstChange' | translate }}</p>
   }
   <button type="button"
-    class="button is-primary"
-    (click)="addAvailability()"
-    style="margin-bottom: 1rem">
-    {{'marathon.submit.availabilities.add' | translate}}
+          class="button is-primary"
+          (click)="addAvailability()"
+          style="margin-bottom: 1rem">
+    {{ 'marathon.submit.availabilities.add' | translate }}
   </button>
   @if (submission.availabilities.length === 0) {
     <p class="help is-danger">
-    {{'marathon.submit.availabilities.error.required' | translate}}</p>
+      {{ 'marathon.submit.availabilities.error.required' | translate }}</p>
   }
   @if (submission.availabilities.length > 0) {
     <table class="table">
       <thead>
-        <tr>
-          <th><span>{{'marathon.submit.availabilities.from' | translate}}</span></th>
-          <th><span>{{'marathon.submit.availabilities.to' | translate}}</span></th>
-          <th><span>{{'marathon.submit.availabilities.actions' | translate}}</span></th>
-        </tr>
+      <tr>
+        <th><span>{{ 'marathon.submit.availabilities.from' | translate }}</span></th>
+        <th><span>{{ 'marathon.submit.availabilities.to' | translate }}</span></th>
+        <th><span>{{ 'marathon.submit.availabilities.actions' | translate }}</span></th>
+      </tr>
       </thead>
       <tbody>
         @for (availability of submission.availabilities; track availability; let i = $index) {
           <tr>
             <td><input class="input"
-              readonly
-              autocomplete="disabled"
-              [ngClass]="{'is-danger': fromDate.invalid}"
-              [owlDateTimeTrigger]="dtFromDate"
-              [owlDateTime]="dtFromDate"
-              [min]="marathonService.marathon.startDate"
-              [max]="!!availability.to ? availability.to : marathonService.marathon.endDate"
-              [(ngModel)]="availability.from"
-              name="fromDate{{i}}"
-              required
-              #fromDate="ngModel">
+                       readonly
+                       autocomplete="disabled"
+                       [ngClass]="{'is-danger': fromDate.invalid}"
+                       [owlDateTimeTrigger]="dtFromDate"
+                       [owlDateTime]="dtFromDate"
+                       [min]="marathonService.marathon.startDate"
+                       [max]="!!availability.to ? availability.to : marathonService.marathon.endDate"
+                       [(ngModel)]="availability.from"
+                       name="fromDate{{i}}"
+                       required
+                       #fromDate="ngModel">
               <owl-date-time #dtFromDate></owl-date-time>
               @if (fromDate.invalid) {
                 <div>
                   @if (fromDate.errors.required) {
                     <p class="help is-danger">
-                    {{'marathon.submit.availabilities.error.dateRequired' | translate}}</p>
+                      {{ 'marathon.submit.availabilities.error.dateRequired' | translate }}</p>
                   }
                 </div>
               }
             </td>
             <td><input class="input"
-              readonly
-              autocomplete="disabled"
-              [ngClass]="{'is-danger': toDate.invalid}"
-              [owlDateTimeTrigger]="dtToDate"
-              [owlDateTime]="dtToDate"
-              [(ngModel)]="availability.to"
-              [min]="minToAvailability(availability)"
-              [max]="marathonService.marathon.endDate"
-              name="toDate{{i}}"
-              required
-              #toDate="ngModel">
+                       readonly
+                       autocomplete="disabled"
+                       [ngClass]="{'is-danger': toDate.invalid}"
+                       [owlDateTimeTrigger]="dtToDate"
+                       [owlDateTime]="dtToDate"
+                       [(ngModel)]="availability.to"
+                       [min]="minToAvailability(availability)"
+                       [max]="marathonService.marathon.endDate"
+                       name="toDate{{i}}"
+                       required
+                       #toDate="ngModel">
               <owl-date-time #dtToDate></owl-date-time>
               @if (toDate.invalid) {
                 <div>
                   @if (toDate.errors.required) {
                     <p class="help is-danger">
-                    {{'marathon.submit.availabilities.error.dateRequired' | translate}}</p>
+                      {{ 'marathon.submit.availabilities.error.dateRequired' | translate }}</p>
                   }
                 </div>
               }
@@ -151,7 +154,7 @@
             <td style="vertical-align: middle">
               @if (!!availability.from && !!availability.to) {
                 <a (click)="duplicateAvailabilityToNextDay(i)"
-                  style="margin-right: 0.5rem" [nwbToolTip]="'marathon.submit.availabilities.duplicate' | translate">
+                   style="margin-right: 0.5rem" [nwbToolTip]="'marathon.submit.availabilities.duplicate' | translate">
                   <fa-icon [icon]="faClone"></fa-icon>
                 </a>
               }
@@ -165,28 +168,28 @@
 
   <fieldset [disabled]="!marathonService.marathon.submitsOpen">
     @if (submission.answers?.length > 0) {
-      <h3 class="title is-3">{{'marathon.submit.details' | translate}}</h3>
+      <h3 class="title is-3">{{ 'marathon.submit.details' | translate }}</h3>
       @for (answer of submission.answers; track answer; let i = $index) {
         <div class="field">
           @if (answer.question.fieldType !== 'CHECKBOX') {
-            <label class="label">{{answer.question.label}}</label>
+            <label class="label">{{ answer.question.label }}</label>
           }
           @if (answer.question.fieldType === 'TEXT') {
             <div class="control">
               <input class="input"
-                type="text"
-                [(ngModel)]="answer.answer"
-                name="answer{{i}}"
-                [ngClass]="{'is-danger': answerField.invalid}"
-                [required]="answer.question.required"
-                maxlength="50"
-                #answerField="ngModel">
-              <p class="help is-pulled-right">{{answer.answer?.length}}/50</p>
+                     type="text"
+                     [(ngModel)]="answer.answer"
+                     name="answer{{i}}"
+                     [ngClass]="{'is-danger': answerField.invalid}"
+                     [required]="answer.question.required"
+                     maxlength="50"
+                     #answerField="ngModel">
+              <p class="help is-pulled-right">{{ answer.answer?.length }}/50</p>
               @if (answerField.invalid) {
                 <div>
                   @if (answerField.errors.required) {
                     <p class="help is-danger">
-                    {{'marathon.submit.customField.error.required' | translate}}</p>
+                      {{ 'marathon.submit.customField.error.required' | translate }}</p>
                   }
                 </div>
               }
@@ -195,19 +198,19 @@
           @if (answer.question.fieldType === 'TEXTAREA') {
             <div class="control">
               <textarea class="textarea"
-                rows=3
-                maxlength="500"
-                [(ngModel)]="answer.answer"
-                name="answer{{i}}"
-                [ngClass]="{'is-danger': answerField.invalid}"
-                [required]="answer.question.required"
-              #answerField="ngModel"></textarea>
-              <p class="help is-pulled-right">{{answer.answer?.length}}/500</p>
+                        rows=3
+                        maxlength="500"
+                        [(ngModel)]="answer.answer"
+                        name="answer{{i}}"
+                        [ngClass]="{'is-danger': answerField.invalid}"
+                        [required]="answer.question.required"
+                        #answerField="ngModel"></textarea>
+              <p class="help is-pulled-right">{{ answer.answer?.length }}/500</p>
               @if (answerField.invalid) {
                 <div>
                   @if (answerField.errors.required) {
                     <p class="help is-danger">
-                    {{'marathon.submit.customField.error.required' | translate}}</p>
+                      {{ 'marathon.submit.customField.error.required' | translate }}</p>
                   }
                 </div>
               }
@@ -217,10 +220,10 @@
             <div class="control">
               <span class="select">
                 <select [(ngModel)]="answer.answer" name="answer{{i}}" #answerField="ngModel"
-                  [ngClass]="{'is-danger': answerField.invalid}" [required]="answer.question.required">
+                        [ngClass]="{'is-danger': answerField.invalid}" [required]="answer.question.required">
                   @for (option of answer.question.options; track option) {
                     <option
-                    [ngValue]="option">{{option}}</option>
+                      [ngValue]="option">{{ option }}</option>
                   }
                 </select>
               </span>
@@ -228,7 +231,7 @@
                 <div>
                   @if (answerField.errors.required) {
                     <p class="help is-danger">
-                    {{'marathon.submit.customField.error.required' | translate}}</p>
+                      {{ 'marathon.submit.customField.error.required' | translate }}</p>
                   }
                 </div>
               }
@@ -242,14 +245,15 @@
           @if (answer.question.fieldType === 'CHECKBOX') {
             <div class="control">
               <nwb-switch [(ngModel)]="answer.answer"
-                [required]="answer.question.required"
-                name="answer{{i}}"
-              #answerField="ngModel">{{answer.question.label}}</nwb-switch>
+                          [required]="answer.question.required"
+                          name="answer{{i}}"
+                          #answerField="ngModel">{{ answer.question.label }}
+              </nwb-switch>
               @if (answerField.invalid) {
                 <div>
                   @if (answerField.errors.required) {
                     <p class="help is-danger">
-                    {{'marathon.submit.customField.error.required' | translate}}</p>
+                      {{ 'marathon.submit.customField.error.required' | translate }}</p>
                   }
                 </div>
               }
@@ -264,14 +268,15 @@
       [opponents]="submission.opponents"
       (addOpponent)="addOpponent($event)"
       (removeOpponent)="removeOpponent($event)"
-      />
+    />
 
-    <h3 class="title is-3">{{'marathon.submit.submissions' | translate}}</h3>
+    <h3 class="title is-3">{{ 'marathon.submit.submissions' | translate }}</h3>
 
     <div class="box is-relative">
-      <p class="is-pulled-left">{{'marathon.submit.table.games' | translate}}</p>
-      <button type="button" class="button is-small is-primary is-pulled-left" style="margin-left: 5px" (click)="addGame()"
-              [disabled]="!marathonService.marathon.unlimitedGames && submission.games.length >=
+      <p class="is-pulled-left">{{ 'marathon.submit.table.games' | translate }}</p>
+      <button type="button" class="button is-small is-primary is-pulled-left" style="margin-left: 5px"
+              (click)="addGame()"
+              [disabled]="!marathonService.marathon.unlimitedGames && categoriesLength >=
                     marathonService.marathon.maxGamesPerRunner">
         <fa-icon [icon]="faPlus"></fa-icon>
       </button>
@@ -280,29 +285,29 @@
       @for (game of submission.games; track game; let i = $index) {
         <hr class="has-background-grey"/>
         <button class="delete is-absolute"
-          style="right: 10px;"
-        (click)="removeGame(i)"></button>
+                style="right: 10px;"
+                (click)="removeGame(i)"></button>
         <div class="columns is-multiline">
           <div class="column is-half">
             <div class="field">
-              <label for="gameName{{i}}" class="label">{{'marathon.submit.game.name.label' | translate}}</label>
+              <label for="gameName{{i}}" class="label">{{ 'marathon.submit.game.name.label' | translate }}</label>
               <div class="control">
                 <input class="input"
-                  type="text"
-                  [(ngModel)]="game.name"
-                  id="gameName{{i}}"
-                  name="gameName{{i}}"
-                  [ngClass]="{'is-danger': gameName.invalid}"
-                  required
-                  maxlength="100"
-                  #gameName="ngModel">
-                <p class="help is-pulled-right">{{game.name?.length}}/100</p>
+                       type="text"
+                       [(ngModel)]="game.name"
+                       id="gameName{{i}}"
+                       name="gameName{{i}}"
+                       [ngClass]="{'is-danger': gameName.invalid}"
+                       required
+                       maxlength="100"
+                       #gameName="ngModel">
+                <p class="help is-pulled-right">{{ game.name?.length }}/100</p>
               </div>
               @if (gameName.invalid) {
                 <div>
                   @if (gameName.errors.required) {
                     <p class="help is-danger">
-                    {{'marathon.submit.game.name.error.required' | translate}}</p>
+                      {{ 'marathon.submit.game.name.error.required' | translate }}</p>
                   }
                 </div>
               }
@@ -310,338 +315,392 @@
           </div>
           <div class="column is-half">
             <div class="field">
-              <label class="label">{{'marathon.submit.game.ratio.label' | translate}}</label>
+              <label class="label">Content Warnings</label>
+              <p class="help">Exemples (liste non exhaustive) : Flashs lumineux, Motion sickness, Gore, Nudité,
+                Arachnophobie...</p>
               <div class="control">
                 <input class="input"
-                  type="text"
-                  [(ngModel)]="game.ratio"
-                  name="gameRatio{{i}}"
-                  [ngClass]="{'is-danger': gameRatio.invalid}"
-                  required
-                  maxlength="10"
-                  #gameRatio="ngModel">
-                <p class="help is-pulled-right">{{game.ratio?.length}}/10</p>
+                       type="text"
+                       [(ngModel)]="game.contentWarnings"
+                       name="contentWarnings{{i}}"
+                       [ngClass]="{'is-danger': contentWarnings.invalid}"
+                       required
+                       maxlength="200"
+                       #contentWarnings="ngModel">
+                <p class="help is-pulled-right">{{ game.contentWarnings?.length }}/200</p>
               </div>
-              @if (gameRatio.invalid) {
-                <div>
-                  @if (gameRatio.errors.required) {
-                    <p class="help is-danger">
-                    {{'marathon.submit.game.ratio.error.required' | translate}}</p>
-                  }
-                </div>
-              }
             </div>
           </div>
           <div class="column">
-            <label class="label">{{'marathon.submit.game.console.label' | translate}}</label>
+            <label class="label">{{ 'marathon.submit.game.console.label' | translate }}</label>
             <div class="field has-addons">
               <div class="select is-fullwidth">
                 <select [(ngModel)]="game.console" name="gameConsole{{i}}">
                   <option value="" disabled></option>
                   @for (opt of possibleConsoles; track opt) {
-                    <option [ngValue]="opt">{{opt}}</option>
+                    <option [ngValue]="opt">{{ opt }}</option>
                   }
                 </select>
               </div>
               <!-- TODO: why do we have the same set twice here? -->
               @if (!marathonService.marathon.emulatorAuthorized) {
                 <fieldset class="control is-tooltip-danger" [disabled]="!marathonService.marathon.emulatorAuthorized"
-                  [nwbToolTip]="'marathon.submit.game.console.emulatorNotAllowed' | translate"
-                  >
+                          [nwbToolTip]="'marathon.submit.game.console.emulatorNotAllowed' | translate"
+                >
                   <button type="button" class="button">
                     <label class="checkbox">
                       <input type="checkbox" [(ngModel)]="game.emulated" name="emulated{{i}}"
-                        style="margin-right: 0.25rem">{{'marathon.submit.game.console.emulated' | translate}}
-                      </label>
-                    </button>
-                  </fieldset>
-                }
-                @if (marathonService.marathon.emulatorAuthorized) {
-                  <p class="control">
-                    <button type="button" class="button" (click)="clickEmulatorButton(game, $event)">
-                      <label class="checkbox">
-                        <input type="checkbox" [checked]="game.emulated" name="emulated{{i}}"
-                          style="margin-right: 0.25rem">{{'marathon.submit.game.console.emulated' | translate}}
-                        </label>
-                      </button>
-                    </p>
-                  }
-                </div>
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">{{'marathon.submit.game.description.label' | translate}}</label>
-              <p class="help">{{'marathon.submit.game.description.help' | translate}}</p>
-              <div class="control">
-                <textarea class="textarea"
-                  rows=3
-                  maxlength="500"
-                  [(ngModel)]="game.description"
-                  name="gameDescription{{i}}"
-                  [ngClass]="{'is-danger': gameDescription.invalid}"
-                  required
-                #gameDescription="ngModel"></textarea>
-                <p class="help is-pulled-right">{{game.description?.length}}/500</p>
-              </div>
-              @if (gameDescription.invalid) {
-                <div>
-                  @if (gameDescription.errors.required) {
-                    <p class="help is-danger">
-                    {{'marathon.submit.game.description.error.required' | translate}}</p>
-                  }
-                </div>
+                             style="margin-right: 0.25rem">{{ 'marathon.submit.game.console.emulated' | translate }}
+                    </label>
+                  </button>
+                </fieldset>
+              }
+              @if (marathonService.marathon.emulatorAuthorized) {
+                <p class="control">
+                  <button type="button" class="button" (click)="clickEmulatorButton(game, $event)">
+                    <label class="checkbox">
+                      <input type="checkbox" [checked]="game.emulated" name="emulated{{i}}"
+                             style="margin-right: 0.25rem">{{ 'marathon.submit.game.console.emulated' | translate }}
+                    </label>
+                  </button>
+                </p>
               }
             </div>
-            <div class="is-clearfix"></div>
-            <!-- Categories -->
-            <p>
-              {{'marathon.submit.table.categories' | translate}}
-              @if (maxCategoriesPerGame > 1) {
-                <button type="button"
-                  class="button is-small is-primary"
-                  style="margin-left: 5px"
-                  (click)="addCategory(i)"
-                  [disabled]="!marathonService.marathon.unlimitedCategories && game.categories.length >= maxCategoriesPerGame">
-                <fa-icon [icon]="faPlus"></fa-icon>
-              </button>
-            }
-          </p>
-          <hr class="has-background-grey-darker"/>
-          <div class="columns is-multiline">
-            @for (category of game.categories; track category; let j = $index) {
-              <!-- TODO: make half width [ngClass]="{ 'is-half': (game.categories.length > 1) }", figure out button -->
-              <div class="column is-full">
-                <article class="message">
-                  <div class="message-body">
-                    @if (game.categories.length > 1) {
-                      <button class="delete is-absolute"
-                        style="right: 25px;"
-                        (click)="removeCategory(i, j)"
-                      ></button>
-                    }
-                    <div class="columns is-multiline">
-                      <div class="column is-6">
-                        <div class="field">
-                          <label class="label">{{'marathon.submit.category.name.label' | translate}}</label>
-                          <div class="control">
-                            <input class="input"
-                              type="text"
-                              [(ngModel)]="category.name"
-                              name="categoryName{{i}}-{{j}}"
-                              [ngClass]="{'is-danger': categoryName.invalid}"
-                              required
-                              maxlength="100"
-                              #categoryName="ngModel">
-                            <p class="help is-pulled-right">{{category.name?.length}}/100</p>
-                          </div>
-                          @if (categoryName.invalid) {
-                            <div>
-                              @if (categoryName.errors.required) {
-                                <p class="help is-danger">
-                                {{'marathon.submit.category.name.error.required' | translate}}</p>
-                              }
-                            </div>
-                          }
-                        </div>
-                      </div>
-                      <div class="column is-6">
-                        <div class="field">
-                          <label class="label">{{'marathon.submit.category.estimate.label' | translate}}</label>
-                          <input class="input"
-                            type="text"
-                            [(ngModel)]="category.estimateHuman"
-                            name="categoryEstimate{{i}}-{{j}}"
-                            placeholder="HH:MM:SS"
-                            [ngClass]="{'is-danger': categoryEstimate.invalid}"
-                            required
-                            pattern="^(?:\d{1,3}):(?:[012345]\d):(?:[012345]\d)$"
-                            [appMinDurationValidator]="1"
-                            #categoryEstimate="ngModel">
-                          <p class="help">{{'marathon.submit.category.estimate.hint' | translate}}</p>
-                          @if (categoryEstimate.invalid) {
-                            <div>
-                              @if (categoryEstimate.errors.required) {
-                                <p class="help is-danger">
-                                {{'marathon.submit.category.estimate.error.required' | translate}}</p>
-                              }
-                              @if (categoryEstimate.errors.pattern) {
-                                <p class="help is-danger">
-                                {{'marathon.submit.category.estimate.error.pattern' | translate}}</p>
-                              }
-                              @if (categoryEstimate.errors.minDuration) {
-                                <p class="help is-danger">
-                                {{'marathon.submit.category.estimate.error.min' | translate}}</p>
-                              }
-                            </div>
-                          }
-                        </div>
-                      </div>
-                      <div class="column is-6">
-                        <div class="field">
-                          <label class="label">{{'marathon.submit.category.video.label' | translate}}</label>
-                          <div class="control">
-                            <input class="input"
-                              type="url"
-                              [(ngModel)]="category.video"
-                              [ngClass]="{'is-danger': categoryVideo.invalid || !testVideo.checkValidity()}"
-                              name="video{{i}}-{{j}}"
-                              [required]="marathonService.marathon.videoRequired"
-                              maxlength="100"
-                              #categoryVideo="ngModel" #testVideo>
-                            <p class="help is-pulled-right">{{category.video?.length}}/100</p>
-                          </div>
-                          @if (categoryVideo.invalid) {
-                            <div>
-                              @if (categoryVideo.errors.required) {
-                                <p class="help is-danger">
-                                {{'marathon.submit.category.video.error.required' | translate}}</p>
-                              }
-                            </div>
-                          }
-                          @if (!testVideo.checkValidity()) {
-                            <p class="help is-danger">
-                              {{'errors.format.url' | translate}}
-                            </p>
-                          }
-                        </div>
-                      </div>
-                      <div class="column is-6">
-                        <div class="field">
-                          <label class="label">{{'marathon.submit.category.type.label' | translate}}</label>
-                          <div class="select is-fullwidth">
-                            <select [(ngModel)]="category.type" [disabled]="!marathonService.marathon.hasMultiplayer"
-                              name="type-{{i}}-{{j}}">
-                              <option value="SINGLE"
-                                [disabled]="category.opponents && category.opponents.length > 0">
-                                {{'marathon.schedule.type.SINGLE' | translate}}
-                              </option>
-                              <option value="RACE">{{ 'marathon.schedule.type.RACE' | translate}}</option>
-                              <option value="COOP">{{ 'marathon.schedule.type.COOP' | translate}}</option>
-                              <option value="COOP_RACE">{{ 'marathon.schedule.type.COOP_RACE' | translate}}</option>
-                              <option value="RELAY">{{ 'marathon.schedule.type.RELAY' | translate}}</option>
-                              <option value="RELAY_RACE">{{ 'marathon.schedule.type.RELAY_RACE' | translate}}</option>
-                            </select>
-                          </div>
-                          @if (['RACE', 'COOP', 'COOP_RACE', 'RELAY', 'RELAY_RACE'].includes(category.type)) {
-                            <div>
-                              @if (!category.code) {
-                                <p class="help">
-                                  {{'marathon.submit.category.code.help.noCode' | translate}}
-                                </p>
-                              }
-                              @if (category.opponents && category.opponents.length > 0) {
-                                <p class="help"
-                                  >{{'marathon.submit.category.opponent.with' |
-                                  translate}}
-                                  @for (opponent of category.opponents; track opponent; let i = $index) {
-                                    <span>
-                                      @if (i > 0) {
-                                        <span>, </span>
-                                      }
-                                      <app-user-link [user]="opponent.user" [isLink]="true" [showAvatar]="true" />
-                                    </span>
-                                  }
-                                </p>
-                              }
-                              @if (category.code) {
-                                <p class="help">
-                                  {{'marathon.submit.category.code.help.withCode' | translate}} <b>{{category.code}}</b></p>
-                                }
-                              </div>
-                            }
-                          </div>
-                          @if (category.type !== 'SINGLE') {
-                            <div class="field">
-                              <label for="expectedOpponentCount" class="label">
-                                {{'marathon.submit.category.expectedRunners.label' | translate}}
-                              </label>
-                              <div class="control">
-                                <input
-                                  type="number"
-                                  id="expectedOpponentCount"
-                                  name="expectedOpponentCount"
-                                  [(ngModel)]="category.expectedRunnerCount"
-                                  class="input"
-                                  />
-                                <p class="help">
-                                  {{'marathon.submit.category.expectedRunners.help.explanation' | translate}}
-                                </p>
-                              </div>
-                            </div>
-                          }
-                        </div>
-                      </div>
-                      <div class="field">
-                        <label class="label">{{'marathon.submit.category.description.label' | translate}}</label>
-                        <p class="help">{{'marathon.submit.category.description.help' | translate}}</p>
-                        <div class="control">
-                          <textarea class="textarea"
-                            rows=3
-                            maxlength="300"
-                            [(ngModel)]="category.description"
-                            [ngClass]="{'is-danger': categoryDescription.invalid}"
-                            name="categoryDescription{{i}}-{{j}}"
-                            required
-                          #categoryDescription="ngModel"></textarea>
-                          <p class="help is-pulled-right">{{category.description?.length}}/300</p>
-                        </div>
-                        @if (categoryDescription.invalid) {
-                          <div>
-                            @if (categoryDescription.errors.required) {
-                              <p class="help is-danger">
-                              {{'marathon.submit.category.description.error.required' | translate}}</p>
-                            }
-                          </div>
-                        }
-                      </div>
-                      <div class="is-clearfix"></div>
-                    </div>
-                  </article>
-                </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Thèmes</label>
+          <p class="help">Choisissez un maximum de 5 qualificatifs pour décrire le jeu.</p>
+          <div class="field">
+            <div class="select is-fullwidth">
+              <select [(ngModel)]="game.themes" name="gameThemes{{i}}">
+                <option value="" disabled></option>
+                @for (opt of possibleConsoles; track opt) {
+                  <option [ngValue]="opt">{{ opt }}</option>
+                }
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Pourquoi présenter ce jeu ?</label>
+          <p class="help">Dites nous ce que vous préférez dans votre run et le jeu, et pourquoi vous pensez qu'elle peut
+            intéresser le public de Speedons</p>
+          <div class="control">
+                <textarea class="textarea"
+                          rows=3
+                          maxlength="500"
+                          [(ngModel)]="game.description"
+                          name="gameDescription{{i}}"
+                          [ngClass]="{'is-danger': gameDescription.invalid}"
+                          required
+                          #gameDescription="ngModel"></textarea>
+            <p class="help is-pulled-right">{{ game.description?.length }}/500</p>
+          </div>
+          @if (gameDescription.invalid) {
+            <div>
+              @if (gameDescription.errors.required) {
+                <p class="help is-danger">
+                  Une réponse à cette question est requise</p>
               }
             </div>
           }
         </div>
-      </fieldset>
+        <div class="is-clearfix"></div>
+        <!-- Categories -->
+        <p>
+          {{ 'marathon.submit.table.categories' | translate }}
+          @if (categoriesLength < marathonService.marathon.maxGamesPerRunner) {
+            <button type="button"
+                    class="button is-small is-primary"
+                    style="margin-left: 5px"
+                    (click)="addCategory(i)"
+                    [disabled]="!marathonService.marathon.unlimitedCategories && categoriesLength >= marathonService.marathon.maxGamesPerRunner">
+              <fa-icon [icon]="faPlus"></fa-icon>
+            </button>
+          }
+        </p>
+        <hr class="has-background-grey-darker"/>
+        <div class="columns is-multiline">
+          @for (category of game.categories; track category; let j = $index) {
+            <!-- TODO: make half width [ngClass]="{ 'is-half': (game.categories.length > 1) }", figure out button -->
+            <div class="column is-full">
+              <article class="message">
+                <div class="message-body">
+                  @if (game.categories.length > 1) {
+                    <button class="delete is-absolute"
+                            style="right: 25px;"
+                            (click)="removeCategory(i, j)"
+                    ></button>
+                  }
+                  <div class="columns is-multiline">
+                    <div class="column is-6">
+                      <div class="field">
+                        <label class="label">{{ 'marathon.submit.category.name.label' | translate }}</label>
+                        <div class="control">
+                          <input class="input"
+                                 type="text"
+                                 [(ngModel)]="category.name"
+                                 name="categoryName{{i}}-{{j}}"
+                                 [ngClass]="{'is-danger': categoryName.invalid}"
+                                 required
+                                 maxlength="100"
+                                 #categoryName="ngModel">
+                          <p class="help is-pulled-right">{{ category.name?.length }}/100</p>
+                        </div>
+                        @if (categoryName.invalid) {
+                          <div>
+                            @if (categoryName.errors.required) {
+                              <p class="help is-danger">
+                                {{ 'marathon.submit.category.name.error.required' | translate }}</p>
+                            }
+                          </div>
+                        }
+                      </div>
+                    </div>
+                    <div class="column is-6">
+                      <div class="field">
+                        <label class="label">{{ 'marathon.submit.category.estimate.label' | translate }}</label>
+                        <p class="help">Durée en "RTA", soit le temps réel entre le début et la fin de la run. Pas de
+                          temps sans chargements, ou temps ingame.</p>
+                        <input class="input"
+                               type="text"
+                               [(ngModel)]="category.estimateHuman"
+                               name="categoryEstimate{{i}}-{{j}}"
+                               placeholder="HH:MM:SS"
+                               [ngClass]="{'is-danger': categoryEstimate.invalid}"
+                               required
+                               pattern="^(?:\d{1,3}):(?:[012345]\d):(?:[012345]\d)$"
+                               [appMinDurationValidator]="1"
+                               #categoryEstimate="ngModel">
+                        @if (categoryEstimate.invalid) {
+                          <div>
+                            @if (categoryEstimate.errors.required) {
+                              <p class="help is-danger">
+                                {{ 'marathon.submit.category.estimate.error.required' | translate }}</p>
+                            }
+                            @if (categoryEstimate.errors.pattern) {
+                              <p class="help is-danger">
+                                {{ 'marathon.submit.category.estimate.error.pattern' | translate }}</p>
+                            }
+                            @if (categoryEstimate.errors.minDuration) {
+                              <p class="help is-danger">
+                                {{ 'marathon.submit.category.estimate.error.min' | translate }}</p>
+                            }
+                          </div>
+                        }
+                      </div>
+                    </div>
+                    <div class="column is-6">
+                      <div class="field">
+                        <label class="label">{{ 'marathon.submit.category.type.label' | translate }}</label>
+                        <div class="select is-fullwidth">
+                          <select [(ngModel)]="category.type" [disabled]="!marathonService.marathon.hasMultiplayer"
+                                  name="type-{{i}}-{{j}}">
+                            <option value="SINGLE"
+                                    [disabled]="category.opponents && category.opponents.length > 0">
+                              {{ 'marathon.schedule.type.SINGLE' | translate }}
+                            </option>
+                            <option value="COOP">{{ 'marathon.schedule.type.COOP' | translate }}</option>
+                            <option value="RELAY">{{ 'marathon.schedule.type.RELAY' | translate }}</option>
+                          </select>
+                        </div>
+                        @if (['COOP', 'RELAY'].includes(category.type)) {
+                          <div>
+                            @if (!category.code) {
+                              <p class="help">
+                                {{ 'marathon.submit.category.code.help.noCode' | translate }}
+                              </p>
+                            }
+                            @if (category.opponents && category.opponents.length > 0) {
+                              <p class="help"
+                              >{{
+                                  'marathon.submit.category.opponent.with' |
+                                    translate
+                                }}
+                                @for (opponent of category.opponents; track opponent; let i = $index) {
+                                  <span>
+                                      @if (i > 0) {
+                                        <span>, </span>
+                                      }
+                                    <app-user-link [user]="opponent.user" [isLink]="true" [showAvatar]="true"/>
+                                    </span>
+                                }
+                              </p>
+                            }
+                            @if (category.code) {
+                              <p class="help">
+                                {{ 'marathon.submit.category.code.help.withCode' | translate }}
+                                <b>{{ category.code }}</b></p>
+                            }
+                          </div>
+                        }
+                      </div>
+                      @if (category.type !== 'SINGLE') {
+                        <div class="field">
+                          <label for="expectedOpponentCount" class="label">
+                            {{ 'marathon.submit.category.expectedRunners.label' | translate }}
+                          </label>
+                          <div class="control">
+                            <input
+                              type="number"
+                              id="expectedOpponentCount"
+                              name="expectedOpponentCount"
+                              [(ngModel)]="category.expectedRunnerCount"
+                              class="input"
+                            />
+                            <p class="help">
+                              {{ 'marathon.submit.category.expectedRunners.help.explanation' | translate }}
+                            </p>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                    <div class="column is-6">
+                      <div class="field">
+                        <label class="label">Participation à une race</label>
+                        <p class="help">
+                          Il n'est pas nécessaire d'indiquer avec quels joueurs la course est prévue.
+                          Les personnes concernées seront contactées par l'équipe de review si une course à plusieurs
+                          joueurs est organisée. </p>
+                        <div class="control is-flex">
+                          <span style="margin-right: 0.5rem">Je ne souhaite pas participer à une race sur cette run</span>
+                          <nwb-switch [(ngModel)]="category.canRace" name="canRace">
+                            <span>Je suis d'accord pour participer à une race sur cette run</span>
+                          </nwb-switch>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-      <div class="mt-4 is-clearfix">
-        <button type="submit" class="button is-primary is-pulled-right" [ngClass]="{'is-loading': loading}"
-            [disabled]="form.invalid || submission.availabilities.length === 0  || submission.games.length === 0 &&
-            submission.opponents.length === 0">{{'action.submit' |
-          translate}}
-        </button>
-
-        @if (submission.id > 0 && !marathonService.marathon.isPrivate) {
-          <app-submit-share-buttons
-            [gameNames]="gameNames"
-            />
-        }
-      </div>
-      @if (submission.id > 0 && !marathonService.marathon.scheduleDone) {
-        <div class="is-clearfix">
-          <hr>
-            <h1 class="title">{{ 'marathon.submit.dangerZone' | translate}}</h1>
-            <div class="field">
-              @if (!deleteConfirm) {
-                <div class="control">
-                  <button class="button is-danger" type="button" (click)="deleteConfirm = true">
-                    {{ 'marathon.submit.delete.action' | translate}}
-                  </button>
+                  <div class="field">
+                    <label class="label">Points forts de la catégorie</label>
+                    <p class="help">Donnez nous des détails sur ce qui rend cette catégorie intéressante</p>
+                    <div class="control">
+                          <textarea class="textarea"
+                                    rows=3
+                                    maxlength="300"
+                                    [(ngModel)]="category.description"
+                                    [ngClass]="{'is-danger': categoryDescription.invalid}"
+                                    name="categoryDescription{{i}}-{{j}}"
+                                    required
+                                    #categoryDescription="ngModel"></textarea>
+                      <p class="help is-pulled-right">{{ category.description?.length }}/300</p>
+                    </div>
+                    @if (categoryDescription.invalid) {
+                      <div>
+                        @if (categoryDescription.errors.required) {
+                          <p class="help is-danger">
+                            Une réponse à cette question est requise</p>
+                        }
+                      </div>
+                    }
+                  </div>
+                  <div class="field">
+                    <label class="label">{{ 'marathon.submit.category.video.label' | translate }}</label>
+                    <p class="help">Lien vers une vidéo commentée de votre run.
+                      Le commentaire peut être réalisé par vous-même ou quelqu'un d'autre.
+                      Merci de laisser la vidéo la plus "naturelle" possible (pas de pauses/montage) pour permettre
+                      d'évaluer au mieux rythme de la run.</p>
+                    <div class="control">
+                      <input class="input"
+                             type="url"
+                             [(ngModel)]="category.video"
+                             [ngClass]="{'is-danger': categoryVideo.invalid || !testVideo.checkValidity()}"
+                             name="video{{i}}-{{j}}"
+                             [required]="marathonService.marathon.videoRequired"
+                             maxlength="100"
+                             #categoryVideo="ngModel" #testVideo>
+                      <p class="help is-pulled-right">{{ category.video?.length }}/100</p>
+                    </div>
+                    @if (categoryVideo.invalid) {
+                      <div>
+                        @if (categoryVideo.errors.required) {
+                          <p class="help is-danger">
+                            {{ 'marathon.submit.category.video.error.required' | translate }}</p>
+                        }
+                      </div>
+                    }
+                    @if (!testVideo.checkValidity()) {
+                      <p class="help is-danger">
+                        {{ 'errors.format.url' | translate }}
+                      </p>
+                    }
+                  </div>
+                  <div class="field">
+                    <label class="label">Temps forts de la run</label>
+                    <p class="help">Indiquez ici quelques temps forts de votre run avec le timecode associé sur la vidéo
+                      en lien avec cette run. N'hésitez pas à rajouter un peu de contexte en quelques mots.</p>
+                    <div class="control">
+                          <textarea class="textarea"
+                                    rows=3
+                                    maxlength="1000"
+                                    [(ngModel)]="category.highlights"
+                                    [ngClass]="{'is-danger': categoryHighlights.invalid}"
+                                    name="categoryHighlights{{i}}-{{j}}"
+                                    required
+                                    #categoryHighlights="ngModel"></textarea>
+                      <p class="help is-pulled-right">{{ category.highlights?.length }}/1000</p>
+                    </div>
+                    @if (categoryHighlights.invalid) {
+                      <div>
+                        @if (categoryHighlights.errors.required) {
+                          <p class="help is-danger">
+                            Une réponse à cette question est requise</p>
+                        }
+                      </div>
+                    }
+                  </div>
+                  <div class="is-clearfix"></div>
                 </div>
-              }
-              @if (deleteConfirm) {
-                <div class="control">
-                  <button class="button is-primary" type="button"
-                    (click)="deleteSubmission(marathonService.marathon.id, submission.id)">
-                    {{'action.confirm' | translate}}
-                  </button>
-                  <button class="button is-danger" type="button" (click)="deleteConfirm = false"
-                    style="margin-left: 1rem">
-                    {{'action.cancel' | translate}}
-                  </button>
-                </div>
-              }
+              </article>
             </div>
+          }
+        </div>
+      }
+    </div>
+  </fieldset>
+
+  <div class="mt-4 is-clearfix">
+    <button type="submit" class="button is-primary is-pulled-right" [ngClass]="{'is-loading': loading}"
+            [disabled]="form.invalid || submission.availabilities.length === 0  || submission.games.length === 0 &&
+            submission.opponents.length === 0">{{
+        'action.submit' |
+          translate
+      }}
+    </button>
+
+    @if (submission.id > 0 && !marathonService.marathon.isPrivate) {
+      <app-submit-share-buttons
+        [gameNames]="gameNames"
+      />
+    }
+  </div>
+  @if (submission.id > 0 && !marathonService.marathon.scheduleDone) {
+    <div class="is-clearfix">
+      <hr>
+      <h1 class="title">{{ 'marathon.submit.dangerZone' | translate }}</h1>
+      <div class="field">
+        @if (!deleteConfirm) {
+          <div class="control">
+            <button class="button is-danger" type="button" (click)="deleteConfirm = true">
+              {{ 'marathon.submit.delete.action' | translate }}
+            </button>
           </div>
         }
-      </form>
+        @if (deleteConfirm) {
+          <div class="control">
+            <button class="button is-primary" type="button"
+                    (click)="deleteSubmission(marathonService.marathon.id, submission.id)">
+              {{ 'action.confirm' | translate }}
+            </button>
+            <button class="button is-danger" type="button" (click)="deleteConfirm = false"
+                    style="margin-left: 1rem">
+              {{ 'action.cancel' | translate }}
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</form>

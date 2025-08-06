@@ -20,6 +20,7 @@ import { Location } from '@angular/common';
 import gameConsoles from '../../../assets/consoles.json';
 import { firstValueFrom } from 'rxjs';
 import { Opponent } from '../../../model/opponent';
+import possibleConsoles from '../../../assets/consoles.json';
 
 @Component({
     selector: 'app-submit',
@@ -143,21 +144,6 @@ export class SubmitComponent implements OnInit {
     game.id = -1;
     game.console = '';
     game.categories.push(new Category());
-
-    // TODO: remove, for testing only
-
-    // game.name = 'Portal';
-    // game.console = 'PC';
-    // game.ratio = '1:1';
-    // game.emulated = true;
-    // game.description = 'Cool game pls accept';
-    //
-    // game.categories[0].name = 'Any%';
-    // game.categories[0].estimate = 'PT115M';
-    // game.categories[0].estimateHuman = '00:15:00';
-    // game.categories[0].description = 'Very cool';
-    // game.categories[0].video = 'https://www.youtube.com/watch?v=dQw4w9WgXc';
-
     this.submission.games.push(game);
   }
 
@@ -272,6 +258,11 @@ export class SubmitComponent implements OnInit {
 
   get gameNames() {
     return this.submission.games.map(game => game.name).join(',');
+  }
+
+  get categoriesLength() {
+    return this.submission.games.map(game => game.categories.length).reduce((acc, element) => acc + element, 0)
+      + this.submission.opponents.length;
   }
 
   addOpponent(opponent: Opponent) {

@@ -16,7 +16,7 @@
         }
       </p>
       @if (userIsAdmin) {
-        <span class="subtitle is-6">{{ 'marathon.submissions.table.ratio' | translate }}: {{ game.ratio }}</span>
+        <span class="subtitle is-6">{{ 'marathon.submissions.table.ratio' | translate }}: {{ game.contentWarnings }}</span>
       }
       <p class="subtitle is-6 has-text-light">
         <app-simple-md [data]="game.description"></app-simple-md>

@@ -10,7 +10,7 @@
 </div>
 <div class="columns">
   <div class="column">
-    <label class="label">{{ 'marathon.settings.maxGamesPerRunner.label' | translate}}</label>
+    <label class="label">Maximum de runs par personne</label>
     <div class="field has-addons">
       <div class="control is-expanded">
         <input class="input"
@@ -24,14 +24,6 @@
           step="1"
           #maxGamesPerRunner="ngModel">
       </div>
-      <p class="control">
-        <button type="button" class="button">
-          <label class="checkbox">
-            <input type="checkbox" [(ngModel)]="settings.unlimitedGames" name="unlimitedGames"
-              style="margin-right: 0.25rem">{{'marathon.settings.unlimited' | translate}}
-            </label>
-          </button>
-        </p>
       </div>
       @if (maxGamesPerRunner.invalid) {
         <div>
@@ -43,52 +35,6 @@
           @if (maxGamesPerRunner.errors.required) {
             <p class="help is-danger">
               {{ 'marathon.settings.maxGamesPerRunner.error.required' | translate}}
-            </p>
-          }
-        </div>
-      }
-    </div>
-    <div class="column">
-      <label class="label">{{'marathon.settings.maxCategoriesPerGame.label' | translate}}</label>
-      <div class="field has-addons">
-        <div class="control is-expanded">
-          <input class="input"
-            [ngClass]="{'is-danger': maxCategoriesPerGame.invalid}"
-            type="number"
-            [disabled]="settings.selectionDone || settings.unlimitedCategories"
-            [(ngModel)]="settings.maxCategoriesPerGame"
-            name="maxCategoriesPerGame"
-            appMinNumberValidator="1"
-            appMaxNumberValidator="10"
-            required
-            step="1"
-            #maxCategoriesPerGame="ngModel">
-        </div>
-        <p class="control">
-          <button type="button" class="button">
-            <label class="checkbox">
-              <input type="checkbox" [(ngModel)]="settings.unlimitedCategories" name="unlimitedCategories"
-                style="margin-right: 0.25rem">{{'marathon.settings.unlimited' | translate}}
-              </label>
-            </button>
-          </p>
-        </div>
-        @if (maxCategoriesPerGame.invalid) {
-          <div>
-            @if (maxCategoriesPerGame.errors.minNumber) {
-              <p class="help is-danger"
-                >
-              {{'marathon.settings.maxCategoriesPerGame.error.min' | translate}}
-            </p>
-          }
-          @if (maxCategoriesPerGame.errors.maxNumber) {
-            <p class="help is-danger">
-              {{'marathon.settings.maxCategoriesPerGame.error.max' | translate}}
-            </p>
-          }
-          @if (maxCategoriesPerGame.errors.required) {
-            <p class="help is-danger">
-              {{'marathon.settings.maxCategoriesPerGame.error.required' | translate}}
             </p>
           }
         </div>
