@@ -4,7 +4,7 @@ export class Game {
   id: number;
   name: string;
   description: string;
-  themes: string;
+  themes: string[];
   console: string;
   contentWarnings: string;
   categories: Category[];
