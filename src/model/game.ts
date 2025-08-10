@@ -1,4 +1,5 @@
 import { Category } from './category';
+import {Incentive} from './incentive';
 
 export class Game {
   id: number;
@@ -11,9 +12,11 @@ export class Game {
   emulated: boolean;
   visible: boolean;
   status: string;
+  incentives: Incentive[];
 
   constructor() {
     this.console = '';
     this.categories = [];
+    this.incentives = [];
   }
 }

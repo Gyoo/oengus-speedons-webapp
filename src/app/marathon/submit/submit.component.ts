@@ -21,6 +21,7 @@ import gameConsoles from '../../../assets/consoles.json';
 import { firstValueFrom } from 'rxjs';
 import { Opponent } from '../../../model/opponent';
 import possibleConsoles from '../../../assets/consoles.json';
+import {Incentive} from '../../../model/incentive';
 
 @Component({
     selector: 'app-submit',
@@ -30,10 +31,8 @@ import possibleConsoles from '../../../assets/consoles.json';
 export class SubmitComponent implements OnInit {
 
   public submission: Submission;
-  public faCheck = faCheck;
   public faTimes = faTimes;
   public faPlus = faPlus;
-  public faTwitter = faTwitter;
   public faClone = faClone;
   public moment = moment;
   public timezone = moment.tz.guess();
@@ -53,7 +52,6 @@ export class SubmitComponent implements OnInit {
 
   constructor(public submissionService: SubmissionService,
               public marathonService: MarathonService,
-              private categoryService: CategoryService,
               private translateService: TranslateService,
               private userService: UserService,
               private toastr: NwbAlertService,
@@ -78,6 +76,16 @@ export class SubmitComponent implements OnInit {
         const minutes = duration.minutes().toString().padStart(2, '0');
         const seconds = duration.seconds().toString().padStart(2, '0');
         category.estimateHuman = '' + hours + ':' + minutes + ':' + seconds;
+      });
+      if (!game.incentives) {
+        game.incentives = [];
+      }
+      game.incentives.forEach(incentive => {
+        const duration = moment.duration(incentive.duration);
+        const hours = Math.floor(duration.asHours()).toString().padStart(2, '0');
+        const minutes = duration.minutes().toString().padStart(2, '0');
+        const seconds = duration.seconds().toString().padStart(2, '0');
+        incentive.durationHuman = '' + hours + ':' + minutes + ':' + seconds;
       });
     });
     if (this.marathonService.marathon.questions.length > 0) {
@@ -151,6 +159,10 @@ export class SubmitComponent implements OnInit {
     this.submission.games[index].categories.push(new Category());
   }
 
+  addIncentive(index: number) {
+    this.submission.games[index].incentives.push(new Incentive());
+  }
+
   minToAvailability(availability: Availability): Date {
     if (availability.from) {
       const fromDate = new Date(availability.from);
@@ -201,6 +213,10 @@ export class SubmitComponent implements OnInit {
     this.submission.games[gameIndex].categories.splice(categoryIndex, 1);
   }
 
+  removeIncentive(gameIndex: number, incentiveIndex: number) {
+    this.submission.games[gameIndex].incentives.splice(incentiveIndex, 1);
+  }
+
   removeAvailability(index: number) {
     this.submission.availabilities.splice(index, 1);
   }
@@ -229,6 +245,9 @@ export class SubmitComponent implements OnInit {
         if (category.type !== 'SINGLE' && category.expectedRunnerCount < 2) {
           category.expectedRunnerCount = 2;
         }
+      });
+      game.incentives.forEach(incentive => {
+        incentive.duration = moment.duration(incentive.durationHuman).toISOString();
       });
     });
 
