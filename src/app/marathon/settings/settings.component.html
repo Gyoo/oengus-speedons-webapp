@@ -64,6 +64,7 @@
         <app-marathon-submission-settings
           [settings]="settings"
           [submissionsQuestions]="submissionsQuestions"
+          [themes]="themes"
           [disabled]="marathonService.isArchived()"
           (stateUpdate)="settingsComponentUpdated($event)"
           (questionTypeChange)="questionTypeChange($event)"
@@ -71,6 +72,10 @@
           (removeOption)="removeOption($event)"
           (addQuestion)="addQuestion($event)"
           (removeQuestion)="removeQuestion($event)"
+          (addThemeSection)="addThemeSection($event)"
+          (removeThemeSection)="removeThemeSection($event)"
+          (addTheme)="addTheme($event)"
+          (removeTheme)="removeTheme($event)"
           (drop)="drop($event)"
         ></app-marathon-submission-settings>
       </div>

@@ -223,3 +223,27 @@ div.loading-bar {
 strong {
   color: #eafdff;
 }
+
+.ng-value {
+  margin-right: 5px;
+}
+
+ng-select {
+  @extend .input;
+}
+
+.ng-dropdown-panel {
+  margin-left: -18px;
+  margin-top: 5px;
+  width: calc(100% + 4px) !important;
+}
+
+.ng-dropdown-panel-items {
+  @extend .textarea;
+  resize: none;
+}
+
+.ng-optgroup {
+  font-weight: bold;
+}
+

@@ -16,6 +16,7 @@ import { Question } from '../model/question';
 import { BooleanStatusDto, DataListDto } from '../model/dto/base-dtos';
 import { map } from 'rxjs/operators';
 import { UserProfile } from '../model/user-profile';
+import {Theme} from '../model/theme';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +38,9 @@ export class MarathonService extends BaseService {
 
   set marathon(value: Marathon) {
     this._marathon = value;
+    if (!!this._marathon.themes) {
+      this._marathon.themes = new Map(Object.entries(this._marathon.themes));
+    }
   }
 
   constructor(private http: HttpClient,
@@ -78,6 +82,14 @@ export class MarathonService extends BaseService {
     return this.http.put<BooleanStatusDto>(
       this.v2Url(`${marathonId}/settings/moderators`),
       { userIds }
+    )
+      .pipe(map(x => x.status));
+  }
+
+  updateThemes(marathonId: string, themes: Map<string, Theme[]>): Observable<boolean> {
+    return this.http.put<BooleanStatusDto>(
+      this.v2Url(`${marathonId}/settings/themes`),
+      { themes: Object.fromEntries(themes) }
     )
       .pipe(map(x => x.status));
   }
@@ -171,5 +183,11 @@ export class MarathonService extends BaseService {
 
   loadModerators(marathonId: string): Observable<DataListDto<UserProfile>> {
     return this.http.get<DataListDto<UserProfile>>(this.v2Url(`${marathonId}/settings/moderators`));
+  }
+
+  loadThemes(marathonId: string): Observable<Map<string, Theme[]>> {
+    return this.http.get<Object>(this.v2Url(`${marathonId}/settings/themes`)).pipe(map(result => {
+      return new Map(Object.entries(result));
+    }));
   }
 }

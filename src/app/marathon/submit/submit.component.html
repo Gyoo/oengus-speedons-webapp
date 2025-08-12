@@ -373,12 +373,23 @@
           <p class="help">Choisissez un maximum de 5 qualificatifs pour décrire le jeu.</p>
           <div class="field">
             <div class="select is-fullwidth">
-              <select [(ngModel)]="game.themes" name="gameThemes{{i}}" [multiple]="true">
-                <option value="" disabled></option>
-                @for (opt of possibleConsoles; track opt) {
-                  <option [ngValue]="opt">{{ opt }}</option>
-                }
-              </select>
+              <ng-select [multiple]="true"
+                         [(ngModel)]="game.themes"
+                         [items]="themesOptions"
+                         bindLabel="value"
+                         bindValue="value"
+                         groupBy="group"
+                         [closeOnSelect]="false"
+                         name="themes-{{i}}"
+                         [clearable]="false"
+                         maxSelectedItems="5">
+                <ng-template ng-optgroup-tmp let-item="item">
+                  {{ item.group || 'Unnamed group' }}
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                  <input id="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" name="theme-checkbox-{{i}}-{{index}}"/> {{ item.value }}
+                </ng-template>
+              </ng-select>
             </div>
           </div>
         </div>

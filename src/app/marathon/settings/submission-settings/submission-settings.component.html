@@ -149,6 +149,78 @@
       </fieldset>
     </div>
   </div>
+  <!-- themes -->
+  <h1 class="title">Thèmes</h1>
+
+  <div class="field has-addons is-pulled-right">
+    <p class="control">
+      <input class="input"
+             type="text"
+             [(ngModel)]="sectionName"
+             name="sectionName"
+             placeholder="Nom de la section"
+             maxlength="50">
+    </p>
+    <p class="control">
+      <button type="button" class="button is-info" style="margin-bottom: 1rem"
+              (click)="addThemeSection.emit({section: sectionName}); sectionName = ''" [disabled]="!sectionName">Ajouter Section
+      </button>
+    </p>
+  </div>
+
+  @if (themes?.size > 0) {
+    <table class="table is-fullwidth is-striped">
+      <thead>
+      <tr>
+        <th>Section</th>
+        <th>Thème</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (section of themes.keys(); track section; let i = $index) {
+          <tr>
+            <td>
+              {{section}}
+            </td>
+            <td>
+              @for (theme of themes.get(section); track theme; let j = $index) {
+              <tr class="is-fullwidth">
+                <td>
+                  <input class="input"
+                         type="text"
+                         [(ngModel)]="theme.name"
+                         name="theme{{i}}-{{j}}"
+                         [ngClass]="{'is-danger': submissionOptionInput.invalid}"
+                         required
+                         maxlength="50"
+                         #submissionOptionInput="ngModel">
+                </td>
+                <td>
+                  <a (click)="addTheme.emit({section: section})" style="margin-right: 0.4rem">
+                    <fa-icon [icon]="faPlus"></fa-icon>
+                  </a>
+                  <a (click)="removeTheme.emit({section: section, name: theme.name})">
+                    <fa-icon [icon]="faTimes"></fa-icon>
+                  </a>
+                </td>
+              </tr>
+              }
+            </td>
+            <td>
+              <a (click)="removeThemeSection.emit({section: section})" style="margin-right: 0.4rem">
+                <fa-icon [icon]="faTimes"></fa-icon>
+              </a>
+            </td>
+          </tr>
+
+        }
+      </tbody>
+    </table>
+  }
+
+  <div class="clearfix"></div>
+
   <!-- custom fields -->
   <h1 class="title">{{ 'marathon.settings.customFields.title' | translate}}</h1>
   <p>{{ 'marathon.settings.customFields.description1' | translate}}</p>

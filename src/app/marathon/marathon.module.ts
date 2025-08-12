@@ -76,6 +76,8 @@ import { SubmitMultiplayerJoinComponent } from './submit/submit-multiplayer-join
 import { SubmitShareButtonsComponent } from './submit/submit-share-buttons/submit-share-buttons.component';
 import { DescriptionEditorComponent } from './settings/general-settings/description-editor/description-editor.component';
 import { ElementLoginLinkSelectorComponent } from '../elements/element-login-link-selector/element-login-link-selector.component';
+import {NgOptgroupTemplateDirective, NgOptionComponent, NgOptionTemplateDirective, NgSelectComponent} from '@ng-select/ng-select';
+import {themesResolver} from '../resolvers/themes.resolver';
 
 const marathonRoutes: Routes = [
   {
@@ -103,6 +105,7 @@ const marathonRoutes: Routes = [
           settings: marathonSettingsResolverResolver,
           questions: questionsResolverResolver,
           moderators: moderatorsResolver,
+          themes: themesResolver,
         },
         canActivate: [
           isEmailVerifiedGuardGuard,
@@ -269,6 +272,10 @@ const marathonRoutes: Routes = [
     MarkdownPipe,
     DescriptionEditorComponent,
     ElementLoginLinkSelectorComponent,
+    NgSelectComponent,
+    NgOptionComponent,
+    NgOptgroupTemplateDirective,
+    NgOptionTemplateDirective,
   ],
   exports: [
     //

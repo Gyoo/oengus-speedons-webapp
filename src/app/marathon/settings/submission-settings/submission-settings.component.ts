@@ -4,6 +4,7 @@ import { MarathonService } from '../../../../services/marathon.service';
 import { MarathonSettings } from '../../../../model/marathon';
 import { Question } from '../../../../model/question';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import {Theme} from '../../../../model/theme';
 
 @Component({
     selector: 'app-marathon-submission-settings',
@@ -14,6 +15,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 export class SubmissionSettingsComponent implements OnInit {
   @Input() public settings: MarathonSettings;
   @Input() public submissionsQuestions: Question[];
+  @Input() public themes: Map<string, Theme[]>;
   @Input() public disabled: boolean;
 
   @Output() public stateUpdate = new EventEmitter<boolean>();
@@ -22,6 +24,10 @@ export class SubmissionSettingsComponent implements OnInit {
   @Output() public removeOption = new EventEmitter<{ questionType: 'SUBMISSION', i: number, j: number }>();
   @Output() public addQuestion = new EventEmitter<{ questionType: 'SUBMISSION' }>();
   @Output() public removeQuestion = new EventEmitter<{ questionType: 'SUBMISSION', i: number }>();
+  @Output() public addThemeSection = new EventEmitter<{section: string }>();
+  @Output() public removeThemeSection = new EventEmitter<{section: string }>();
+  @Output() public addTheme = new EventEmitter<{section: string }>();
+  @Output() public removeTheme = new EventEmitter<{section: string, name: string }>();
   @Output() public drop = new EventEmitter<CdkDragDrop<Question[]>>();
 
 
@@ -31,6 +37,7 @@ export class SubmissionSettingsComponent implements OnInit {
   public botInvite = 'https://discord.com/oauth2/authorize?client_id=559625844197163008&permissions=68608&scope=bot';
 
   public loadingDiscordCheck = false;
+  public sectionName: string;
 
   constructor(public marathonService: MarathonService) { }
 

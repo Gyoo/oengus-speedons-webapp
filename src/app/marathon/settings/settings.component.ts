@@ -13,6 +13,7 @@ import { firstValueFrom } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { NwbAlertConfig, NwbAlertService } from '@wizishop/ng-wizi-bulma';
 import { UserProfile } from '../../../model/user-profile';
+import {Theme} from '../../../model/theme';
 
 @Component({
     selector: 'app-settings',
@@ -40,6 +41,8 @@ export class SettingsComponent implements OnInit {
   public submissionsQuestions: Question[];
   public donationsQuestions: Question[];
 
+  public themes: Map<string, Theme[]> = new Map<string, Theme[]>();
+
   public settingsValid = true;
 
   constructor(
@@ -52,7 +55,7 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activatedRoute.data.subscribe(({ settings, questions, moderators }) => {
+    this.activatedRoute.data.subscribe(({ settings, questions, moderators, themes }) => {
       this.settings = cloneDeep(settings);
       this.marathonId = settings.id;
 
@@ -64,6 +67,7 @@ export class SettingsComponent implements OnInit {
       this.donationsQuestions = this.questions.filter(q => q.type === 'DONATION');
 
       this.moderators = moderators;
+      this.themes = themes;
     });
   }
 
@@ -93,6 +97,7 @@ export class SettingsComponent implements OnInit {
     try {
       const updatedSettings = await firstValueFrom(this.marathonService.updateSettings(this.settings));
       await firstValueFrom(this.marathonService.updateQuestions(this.marathonId, this.questions));
+      await firstValueFrom(this.marathonService.updateThemes(this.marathonId, this.themes));
 
       if (this.userService.user.id === this.marathonService.marathon.creator.id) {
         await firstValueFrom(this.marathonService.updateModerators(this.marathonId, this.moderators.map(it => it.id)));
@@ -193,6 +198,23 @@ export class SettingsComponent implements OnInit {
     if (questionType === 'DONATION') {
       this.donationsQuestions[i].options.splice(j, 1);
     }
+  }
+
+  addThemeSection({ section }: { section: string }) {
+    this.themes.set(section, []);
+    this.addTheme({section: section});
+  }
+
+  removeThemeSection({ section }: { section: string }) {
+    this.themes.delete(section);
+  }
+
+  addTheme({ section }: { section: string }) {
+    this.themes.get(section).push({id: -1, name: ''});
+  }
+
+  removeTheme({ section, name }: { section: string, name: string }) {
+    this.themes.set(section, this.themes.get(section).filter(theme => theme.name !== name));
   }
 
   drop(event: CdkDragDrop<Question[]>) {

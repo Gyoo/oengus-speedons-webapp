@@ -1,5 +1,6 @@
 import { BasicUserInfo } from './user';
 import { Question } from './question';
+import {Theme} from './theme';
 
 export class Marathon {
 
@@ -36,6 +37,7 @@ export class Marathon {
   hasIncentives: boolean;
   canEditSubmissions: boolean;
   questions: Question[];
+  themes: Map<string, Theme[]>;
   hasDonations: boolean;
   payee: string;
   donationCurrency: string;

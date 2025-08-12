@@ -40,6 +40,7 @@ export class SubmitComponent implements OnInit {
   public localStorage = localStorage;
   public possibleConsoles: string[] = gameConsoles;
   public deleteConfirm = false;
+  public themesOptions = [];
 
   public code: string;
 
@@ -136,7 +137,11 @@ export class SubmitComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.marathonService.marathon.themes.forEach((list, key) => {
+      list.forEach(theme => {
+        this.themesOptions.push({'group': key, 'value': theme.name});
+      });
+    });
   }
 
   goBack() {
