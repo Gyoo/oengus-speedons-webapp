@@ -1,7 +1,7 @@
 name: Publish dev
 on:
   push:
-    branches: [ v1, master ]
+    branches: [ v1, master, speedons ]
 jobs:
   push_to_registry:
 
@@ -35,7 +35,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: oengusio-speedons/frontend:v1
+          tags: oengusspeedons/frontend:v1
           cache-from: type=gha
           cache-to: type=gha
           build-args: |
