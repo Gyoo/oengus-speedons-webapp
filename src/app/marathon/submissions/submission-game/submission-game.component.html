@@ -6,32 +6,39 @@
           {{ game.name }} - {{ game.console }}@if (game.emulated) {
           <sup>{{ 'global.emu' | translate }}</sup>
         }
-        @if (showDelete) {
-          <app-delete-button
-            [baseText]="'marathon.submissions.game.delete' | translate"
-            [confirmText]="'action.confirm' | translate"
-            [cancelText]="'action.cancel' | translate"
-            (confirmHandler)="deleteGame.next()"
-          ></app-delete-button>
-        }
-      </p>
-      @if (userIsAdmin) {
-        <span class="subtitle is-6">{{ 'marathon.submissions.table.ratio' | translate }}: {{ game.contentWarnings }}</span>
-      }
-      <p class="subtitle is-6 has-text-light">
-        <app-simple-md [data]="game.description"></app-simple-md>
-      </p>
+          @if (showDelete) {
+            <app-delete-button
+              [baseText]="'marathon.submissions.game.delete' | translate"
+              [confirmText]="'action.confirm' | translate"
+              [cancelText]="'action.cancel' | translate"
+              (confirmHandler)="deleteGame.next()"
+            ></app-delete-button>
+          }
+        </p>
+        <p class="subtitle is-6 has-text-light">
+          @for (theme of game.themes; track theme){
+            <span class="tag is-info is-small" style="margin-right: 2px">{{theme}}</span>
+          }
+        </p>
+        <p class="subtitle is-6 has-text-light">
+          <b>Pourquoi présenter ce jeu ?</b><br/>
+          <app-simple-md [data]="game.description"></app-simple-md>
+        </p>
 
-      @for (category of game.categories; track category) {
-        <app-submission-category
-          [category]="category"
-          [marathon]="marathon"
-          [rawStatus]="getRawStatus(category)"
-          [showDelete]="showDelete"
-          (triggerDelete)="deleteCategory.next(category.id)"
-        ></app-submission-category>
-      }
+
+        @for (category of game.categories; track category) {
+          <app-submission-category
+            [category]="category"
+            [marathon]="marathon"
+            [rawStatus]="getRawStatus(category)"
+            [showDelete]="showDelete"
+            (triggerDelete)="deleteCategory.next(category.id)"
+          ></app-submission-category>
+        }
+        @if (!!game.contentWarnings){
+          <span class="subtitle is-6">Content Warnings: {{ game.contentWarnings }}</span>
+        }
+      </div>
     </div>
   </div>
-</div>
 </div>

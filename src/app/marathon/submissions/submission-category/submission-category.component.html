@@ -9,6 +9,11 @@
           </span>
         </a>
       }
+      @if (category.canRace) {
+        <span class="icon" [nwbToolTip]="'Peut participer à une race'">
+            <fa-icon [icon]="faPersonRunning"></fa-icon>
+        </span>
+      }
     </p>
     @if (marathon.selectionDone) {
       <p class="is-pulled-right">
@@ -60,7 +65,13 @@
       <hr />
     }
     <p>
+      <b>Points forts de la catégorie :</b><br/>
       <app-simple-md [data]="category.description"></app-simple-md>
+    </p>
+    <br>
+    <p>
+      <b>Temps forts de la run :</b><br/>
+      <app-simple-md [data]="category.highlights"></app-simple-md>
     </p>
   </div>
 </article>
