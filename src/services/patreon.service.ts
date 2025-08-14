@@ -23,9 +23,6 @@ export class PatreonService extends BaseService {
       return of(this.cachedPatrons);
     }
 
-    return this.http.get<PatronApiResponse>(`${environment.patronApi}/patrons`)
-      .pipe(tap((response) => {
-        this.cachedPatrons = response;
-      }));
+    return of(new PatronApiResponse());
   }
 }

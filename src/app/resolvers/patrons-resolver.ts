@@ -13,6 +13,6 @@ export class PatronsResolver  {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
     Observable<PatronApiResponse> | Promise<PatronApiResponse> | PatronApiResponse {
-    return this.http.get<PatronApiResponse>(`${environment.patronApi}/patrons`);
+    return new PatronApiResponse();
   }
 }
