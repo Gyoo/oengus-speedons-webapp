@@ -1,9 +1,0 @@
-{
-  "/api": {
-    "target": "https://oengus.gyoo.ooo/api",
-    "secure": true,
-    "pathRewrite": {
-      "^/api": ""
-    }
-  }
-}
