@@ -47,7 +47,7 @@ export const environment = {
       const splitUrl = url.split('.');
       const parts = splitUrl.length > 2 ? [splitUrl[1], splitUrl[2]] : splitUrl;
 
-      return `${window.location.protocol}//${parts[0]}.${parts[1]}/api`;
+      return `${window.location.protocol}//${window.location.hostname}/api`;
     }
 
     return 'http://localhost:8080';
