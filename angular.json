@@ -151,6 +151,7 @@
           },
           "configurations": {
             "production": {
+              "proxyConfig": "src/proxy-prod.conf.json",
               "buildTarget": "webapp:build:production"
             }
           }
