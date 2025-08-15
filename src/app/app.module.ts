@@ -173,7 +173,7 @@ const appRoutes: Routes = [
       alwaysSetPrefix: false,
       initialNavigation: false,
       cacheName: 'language',
-      defaultLangFunction: (languages: string[], cachedLang?: string, browserLang?: string) => 'en-GB',
+      defaultLangFunction: (languages: string[], cachedLang?: string, browserLang?: string) => 'fr',
       parser: {
         provide: LocalizeParser,
         useFactory: (translate, location, settings) => new ManualParserLoader(translate, location, settings, availableLocaleNames, 'YOUR_PREFIX'),
