@@ -2,7 +2,7 @@
   <div class="card-content">
     <div class="media">
       <div class="media-content">
-        <p class="title is-4 has-text-light">
+        <p class="title is-4 has-text-dark">
           {{ game.name }} - {{ game.console }}@if (game.emulated) {
           <sup>{{ 'global.emu' | translate }}</sup>
         }
@@ -15,12 +15,12 @@
             ></app-delete-button>
           }
         </p>
-        <p class="subtitle is-6 has-text-light">
+        <p class="subtitle is-6 has-text-dark">
           @for (theme of game.themes; track theme){
             <span class="tag is-info is-small" style="margin-right: 2px">{{theme}}</span>
           }
         </p>
-        <p class="subtitle is-6 has-text-light">
+        <p class="subtitle is-6 has-text-dark">
           <b>Pourquoi présenter ce jeu ?</b><br/>
           <app-simple-md [data]="game.description"></app-simple-md>
         </p>

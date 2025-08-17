@@ -1,5 +1,5 @@
 @use '../../../assets/table';
-@use 'bulmaswatch/solar/variables' as solar;
+@use 'src/assets/themes/minty/variables' as minty;
 
 :host {
   @include table.cell-varients($selector-after: '> .element-table-detail');
@@ -34,7 +34,7 @@
 
   > .element-table-detail {
     padding: var(--spacing);
-    border-radius: solar.$radius;
+    border-radius: minty.$radius;
 
     @media (max-width: 1023px) {
       & {

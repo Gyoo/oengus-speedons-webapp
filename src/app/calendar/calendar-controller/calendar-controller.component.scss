@@ -1,5 +1,5 @@
 @use 'sass:math' as math;
-@use 'bulmaswatch/solar/variables' as solar;
+@use 'src/assets/themes/minty/variables' as minty;
 @use 'bulma/sass/utilities/initial-variables' as bulma;
 
 :host {
@@ -26,13 +26,13 @@
     &:first-child {
       border-start-start-radius: bulma.$radius-rounded;
       border-end-start-radius: bulma.$radius-rounded;
-      border-inline-start-width: solar.$border-width;
+      border-inline-start-width: minty.$border-width;
     }
 
     &:last-child {
       border-start-end-radius: bulma.$radius-rounded;
       border-end-end-radius: bulma.$radius-rounded;
-      border-inline-end-width: solar.$border-width;
+      border-inline-end-width: minty.$border-width;
     }
   }
 }

@@ -1,4 +1,4 @@
-@use 'bulmaswatch/solar/variables' as solar;
+@use 'src/assets/themes/minty/variables' as minty;
 
 :host {
   padding-block: var(--spacing);
@@ -8,17 +8,17 @@
   margin: 0;
 
   li a {
-    background-color: solar.$grey-dark;
+    background-color: minty.$grey-dark;
   }
 
   li.is-active a {
-    color: solar.$yellow-invert;
-    background-color: solar.$yellow;
+    color: minty.$yellow-invert;
+    background-color: minty.$yellow;
   }
 }
 
 .history-view-container {
-  border-color: solar.$grey-dark;
+  border-color: minty.$grey-dark;
   border-style: solid;
   border-width: 0 2px 2px;
   padding: var(--spacing);

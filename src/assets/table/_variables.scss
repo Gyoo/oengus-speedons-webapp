@@ -1,4 +1,4 @@
-@use 'bulmaswatch/solar/variables' as solar;
+@use 'src/assets/themes/minty/variables' as minty;
 @use 'bulma/sass/utilities/functions' as bulma;
 
 // Colors are designed to take advantage of playing off the background. Theme neutral
@@ -6,11 +6,11 @@ $neutral-color: rgba(255, 255, 255, 0.1) !default;
 $light-color: rgba(255, 255, 255, 0.05) !default;
 $dark-color: rgba(0, 0, 0, 0.1) !default;
 
-$primary-color: solar.$primary !default;
-$info-color: solar.$info !default;
-$success-color: solar.$green !default;
-$warning-color: solar.$warning !default;
-$danger-color: solar.$red !default;
+$primary-color: minty.$primary !default;
+$info-color: minty.$info !default;
+$success-color: minty.$green !default;
+$warning-color: minty.$warning !default;
+$danger-color: minty.$red !default;
 
 /* stylelint-disable function-name-case */
 // I can't help what Bulma named their function...

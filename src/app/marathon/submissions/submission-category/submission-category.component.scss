@@ -1,7 +1,7 @@
-@import "bulmaswatch/solar/variables";
+@import "src/assets/themes/minty/variables";
 
 hr {
-  border: 1px solid $grey-alt;
+  border: 1px solid $grey-light;
 }
 
 .message.is-success {

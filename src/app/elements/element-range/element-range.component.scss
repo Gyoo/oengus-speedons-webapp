@@ -1,4 +1,4 @@
-@use 'bulmaswatch/solar/variables' as solar;
+@use 'src/assets/themes/minty/variables' as minty;
 @use 'bulma/sass/utilities/initial-variables' as bulma;
 
 :host {
@@ -18,20 +18,20 @@
   > .selected-range {
     position: absolute;
     border: none;
-    border-radius: solar.$radius;
+    border-radius: minty.$radius;
     display: block;
     height: 100%;
     left: var(--start-range);
     right: var(--end-range);
-    background-color: solar.$primary;
+    background-color: minty.$primary;
   }
 
   $colors:
-    'primary' solar.$primary,
-    'info' solar.$info,
-    'success' solar.$green,
-    'warning' solar.$warning,
-    'danger' solar.$red;
+    'primary' minty.$primary,
+    'info' minty.$info,
+    'success' minty.$green,
+    'warning' minty.$warning,
+    'danger' minty.$red;
 
   @each $name, $color in $colors {
     &.is-#{$name} > .selected-range {

@@ -1,14 +1,12 @@
 @use 'sass:color' as color;
 
-@import 'bulmaswatch/solar/variables';
+@import './minty/variables';
 
 $white: white;
 
 // Improve text contrast for accessibility
 $-lightness-change: 36%;
-$text: color.scale($text, $lightness: $-lightness-change);
-$title-color: color.scale($title-color, $lightness: $-lightness-change);
-$subtitle-color: $title-color;
+
 $code: #ffc8e2;
 
 $discordBlurple: #5865F2;
@@ -25,7 +23,7 @@ $input-placeholder-color: #9d8484;
 }
 
 @import 'bulma/bulma';
-@import 'bulmaswatch/solar/overrides';
+@import './minty/overrides';
 @import '@duncte123/bulma-tagsinput/src/sass/index';
 @import './elements';
 

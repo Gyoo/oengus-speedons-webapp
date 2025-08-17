@@ -1,4 +1,4 @@
-@import "bulmaswatch/solar/variables";
+@import "src/assets/themes/minty/variables";
 
 /*:host {
   display: flex;
@@ -11,7 +11,7 @@
 }*/
 
 hr {
-  border: 1px solid $grey-alt;
+  border: 1px solid $grey-light;
 }
 
 .searchInput {
