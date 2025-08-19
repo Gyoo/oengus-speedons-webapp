@@ -83,7 +83,7 @@
   <button type="button"
           class="button is-primaryavailAdd"
           (click)="addAvailability()"
-          >
+  >
     {{ 'marathon.submit.availabilities.add' | translate }}
   </button>
   @if (submission.availabilities.length === 0) {
@@ -273,130 +273,135 @@
     <h3 class="title is-3">{{ 'marathon.submit.submissions' | translate }}</h3>
 
     <div class="box is-relative">
-      <p class="is-pulled-left">{{ 'marathon.submit.table.games' | translate }}</p>
-      <button type="button" class="button is-small is-primary is-pulled-left addBtn"
-              (click)="addGame()"
-              [disabled]="!marathonService.marathon.unlimitedGames && categoriesLength >=
+      <p class="submission-label">{{ 'marathon.submit.table.games' | translate }}
+        <button type="button" class="button is-small is-primary addBtn"
+                (click)="addGame()"
+                [disabled]="!marathonService.marathon.unlimitedGames && categoriesLength >=
                     marathonService.marathon.maxGamesPerRunner">
-        <fa-icon [icon]="faPlus"></fa-icon>
-      </button>
+          <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+      </p>
+
       <div class="is-clearfix"></div>
 
       @for (game of submission.games; track game; let i = $index) {
-        <hr class="has-background-grey"/>
-        <button class="delete is-absolute delBtn"
-                (click)="removeGame(i)"></button>
-        <div class="columns is-multiline">
-          <div class="column is-half">
-            <div class="field">
-              <label for="gameName{{i}}" class="label">{{ 'marathon.submit.game.name.label' | translate }}</label>
-              <div class="control">
-                <input class="input"
-                       type="text"
-                       [(ngModel)]="game.name"
-                       id="gameName{{i}}"
-                       name="gameName{{i}}"
-                       [ngClass]="{'is-danger': gameName.invalid}"
-                       required
-                       maxlength="100"
-                       #gameName="ngModel">
-                <p class="help is-pulled-right">{{ game.name?.length }}/100</p>
-              </div>
-              @if (gameName.invalid) {
-                <div>
-                  @if (gameName.errors.required) {
-                    <p class="help is-danger">
-                      {{ 'marathon.submit.game.name.error.required' | translate }}</p>
-                  }
+        @if(i > 0) {<hr class="has-background-grey-lighter"/>}
+        <div class="box is-relative">
+          <button class="delete is-absolute delBtn"
+                  (click)="removeGame(i)"></button>
+          <div class="columns is-multiline">
+            <div class="column is-half">
+              <div class="field">
+                <label for="gameName{{i}}" class="label">{{ 'marathon.submit.game.name.label' | translate }}</label>
+                <div class="control">
+                  <input class="input"
+                         type="text"
+                         [(ngModel)]="game.name"
+                         id="gameName{{i}}"
+                         name="gameName{{i}}"
+                         [ngClass]="{'is-danger': gameName.invalid}"
+                         required
+                         maxlength="100"
+                         #gameName="ngModel">
+                  <p class="help is-pulled-right">{{ game.name?.length }}/100</p>
                 </div>
-              }
+                @if (gameName.invalid) {
+                  <div>
+                    @if (gameName.errors.required) {
+                      <p class="help is-danger">
+                        {{ 'marathon.submit.game.name.error.required' | translate }}</p>
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          </div>
-          <div class="column is-half">
-            <div class="field">
-              <label class="label">Content Warnings</label>
-              <p class="help">Exemples (liste non exhaustive) : Flashs lumineux, Motion sickness, Gore, Nudité,
-                Arachnophobie...</p>
-              <div class="control">
-                <input class="input"
-                       type="text"
-                       [(ngModel)]="game.contentWarnings"
-                       name="contentWarnings{{i}}"
-                       [ngClass]="{'is-danger': contentWarnings.invalid}"
-                       required
-                       maxlength="200"
-                       #contentWarnings="ngModel">
-                <p class="help is-pulled-right">{{ game.contentWarnings?.length }}/200</p>
+            <div class="column is-half">
+              <div class="field">
+                <label class="label">Content Warnings</label>
+                <p class="help">Exemples (liste non exhaustive) : Flashs lumineux, Motion sickness, Gore, Nudité,
+                  Arachnophobie...</p>
+                <div class="control">
+                  <input class="input"
+                         type="text"
+                         [(ngModel)]="game.contentWarnings"
+                         name="contentWarnings{{i}}"
+                         [ngClass]="{'is-danger': contentWarnings.invalid}"
+                         required
+                         maxlength="200"
+                         #contentWarnings="ngModel">
+                  <p class="help is-pulled-right">{{ game.contentWarnings?.length }}/200</p>
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <label class="label">{{ 'marathon.submit.game.console.label' | translate }}</label>
+              <div class="field has-addons">
+                <div class="select is-fullwidth">
+                  <select [(ngModel)]="game.console" name="gameConsole{{i}}">
+                    <option value="" disabled></option>
+                    @for (opt of possibleConsoles; track opt) {
+                      <option [ngValue]="opt">{{ opt }}</option>
+                    }
+                  </select>
+                </div>
+                <!-- TODO: why do we have the same set twice here? -->
+                @if (!marathonService.marathon.emulatorAuthorized) {
+                  <fieldset class="control is-tooltip-danger" [disabled]="!marathonService.marathon.emulatorAuthorized"
+                            [nwbToolTip]="'marathon.submit.game.console.emulatorNotAllowed' | translate"
+                  >
+                    <button type="button" class="button">
+                      <label class="checkbox">
+                        <input type="checkbox" [(ngModel)]="game.emulated" name="emulated{{i}}"
+                               style="margin-right: 0.25rem">{{ 'marathon.submit.game.console.emulated' | translate }}
+                      </label>
+                    </button>
+                  </fieldset>
+                }
+                @if (marathonService.marathon.emulatorAuthorized) {
+                  <p class="control">
+                    <button type="button" class="button" (click)="clickEmulatorButton(game, $event)">
+                      <label class="checkbox">
+                        <input type="checkbox" [checked]="game.emulated" name="emulated{{i}}"
+                               style="margin-right: 0.25rem">{{ 'marathon.submit.game.console.emulated' | translate }}
+                      </label>
+                    </button>
+                  </p>
+                }
               </div>
             </div>
           </div>
-          <div class="column">
-            <label class="label">{{ 'marathon.submit.game.console.label' | translate }}</label>
-            <div class="field has-addons">
-              <div class="select is-fullwidth">
-                <select [(ngModel)]="game.console" name="gameConsole{{i}}">
-                  <option value="" disabled></option>
-                  @for (opt of possibleConsoles; track opt) {
-                    <option [ngValue]="opt">{{ opt }}</option>
-                  }
-                </select>
-              </div>
-              <!-- TODO: why do we have the same set twice here? -->
-              @if (!marathonService.marathon.emulatorAuthorized) {
-                <fieldset class="control is-tooltip-danger" [disabled]="!marathonService.marathon.emulatorAuthorized"
-                          [nwbToolTip]="'marathon.submit.game.console.emulatorNotAllowed' | translate"
-                >
-                  <button type="button" class="button">
-                    <label class="checkbox">
-                      <input type="checkbox" [(ngModel)]="game.emulated" name="emulated{{i}}"
-                             style="margin-right: 0.25rem">{{ 'marathon.submit.game.console.emulated' | translate }}
-                    </label>
-                  </button>
-                </fieldset>
-              }
-              @if (marathonService.marathon.emulatorAuthorized) {
-                <p class="control">
-                  <button type="button" class="button" (click)="clickEmulatorButton(game, $event)">
-                    <label class="checkbox">
-                      <input type="checkbox" [checked]="game.emulated" name="emulated{{i}}"
-                             style="margin-right: 0.25rem">{{ 'marathon.submit.game.console.emulated' | translate }}
-                    </label>
-                  </button>
-                </p>
-              }
-            </div>
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Thèmes</label>
-          <p class="help">Choisissez un maximum de 5 qualificatifs pour décrire le jeu.</p>
           <div class="field">
-            <div class="select is-fullwidth">
-              <ng-select [multiple]="true"
-                         [(ngModel)]="game.themes"
-                         [items]="themesOptions"
-                         bindLabel="value"
-                         bindValue="value"
-                         groupBy="group"
-                         [closeOnSelect]="false"
-                         name="themes-{{i}}"
-                         [clearable]="false"
-                         maxSelectedItems="5">
-                <ng-template ng-optgroup-tmp let-item="item">
-                  {{ item.group || 'Unnamed group' }}
-                </ng-template>
-                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-                  <input id="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" name="theme-checkbox-{{i}}-{{index}}"/> {{ item.value }}
-                </ng-template>
-              </ng-select>
+            <label class="label">Thèmes</label>
+            <p class="help">Choisissez un maximum de 5 qualificatifs pour décrire le jeu.</p>
+            <div class="field">
+              <div class="select is-fullwidth">
+                <ng-select [multiple]="true"
+                           [(ngModel)]="game.themes"
+                           [items]="themesOptions"
+                           bindLabel="value"
+                           bindValue="value"
+                           groupBy="group"
+                           [closeOnSelect]="false"
+                           name="themes-{{i}}"
+                           [clearable]="false"
+                           maxSelectedItems="5">
+                  <ng-template ng-optgroup-tmp let-item="item">
+                    {{ item.group || 'Unnamed group' }}
+                  </ng-template>
+                  <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <input id="item-{{ index }}" type="checkbox" [ngModel]="item$.selected"
+                           name="theme-checkbox-{{i}}-{{index}}"/> {{ item.value }}
+                  </ng-template>
+                </ng-select>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="field">
-          <label class="label">Pourquoi présenter ce jeu ?</label>
-          <p class="help">Dites nous ce que vous préférez dans votre run et le jeu, et pourquoi vous pensez qu'elle peut
-            intéresser le public de Speedons</p>
-          <div class="control">
+          <div class="field">
+            <label class="label">Pourquoi présenter ce jeu ?</label>
+            <p class="help">Dites nous ce que vous préférez dans votre run et le jeu, et pourquoi vous pensez qu'elle
+              peut
+              intéresser le public de Speedons</p>
+            <div class="control">
                 <textarea class="textarea"
                           rows=3
                           maxlength="500"
@@ -405,186 +410,187 @@
                           [ngClass]="{'is-danger': gameDescription.invalid}"
                           required
                           #gameDescription="ngModel"></textarea>
-            <p class="help is-pulled-right">{{ game.description?.length }}/500</p>
-          </div>
-          @if (gameDescription.invalid) {
-            <div>
-              @if (gameDescription.errors.required) {
-                <p class="help is-danger">
-                  Une réponse à cette question est requise</p>
-              }
+              <p class="help is-pulled-right">{{ game.description?.length }}/500</p>
             </div>
-          }
-        </div>
-        <div class="is-clearfix"></div>
-        <!-- Categories -->
-        <p>
-          {{ 'marathon.submit.table.categories' | translate }}
-          @if (categoriesLength < marathonService.marathon.maxGamesPerRunner) {
-            <button type="button"
-                    class="button is-small is-primaryaddBtn"
-                    (click)="addCategory(i)"
-                    [disabled]="!marathonService.marathon.unlimitedCategories && categoriesLength >= marathonService.marathon.maxGamesPerRunner">
-              <fa-icon [icon]="faPlus"></fa-icon>
-            </button>
-          }
-        </p>
-        <hr class="has-background-grey-lighter"/>
-        <div class="columns is-multiline">
-          @for (category of game.categories; track category; let j = $index) {
-            <!-- TODO: make half width [ngClass]="{ 'is-half': (game.categories.length > 1) }", figure out button -->
-            <div class="column is-full">
-              <article class="message">
-                <div class="message-body">
-                  @if (game.categories.length > 1) {
-                    <button class="delete is-absolutedelBtn"
-                            (click)="removeCategory(i, j)"
-                    ></button>
-                  }
-                  <div class="columns is-multiline">
-                    <div class="column is-6">
-                      <div class="field">
-                        <label class="label">{{ 'marathon.submit.category.name.label' | translate }}</label>
-                        <div class="control">
+            @if (gameDescription.invalid) {
+              <div>
+                @if (gameDescription.errors.required) {
+                  <p class="help is-danger">
+                    Une réponse à cette question est requise</p>
+                }
+              </div>
+            }
+          </div>
+          <div class="is-clearfix"></div>
+          <hr class="has-background-grey-lighter"/>
+          <!-- Categories -->
+          <p class="submission-label">
+            {{ 'marathon.submit.table.categories' | translate }}
+            @if (categoriesLength < marathonService.marathon.maxGamesPerRunner) {
+              <button type="button"
+                      class="button is-small is-primary addBtn"
+                      (click)="addCategory(i)"
+                      [disabled]="!marathonService.marathon.unlimitedCategories && categoriesLength >= marathonService.marathon.maxGamesPerRunner">
+                <fa-icon [icon]="faPlus"></fa-icon>
+              </button>
+            }
+          </p>
+          <div class="columns is-multiline">
+            @for (category of game.categories; track category; let j = $index) {
+              <!-- TODO: make half width [ngClass]="{ 'is-half': (game.categories.length > 1) }", figure out button -->
+              <div class="column is-full">
+                <article class="message">
+                  <div class="message-body">
+                    @if (game.categories.length > 1) {
+                      <button class="delete is-absolutedelBtn"
+                              (click)="removeCategory(i, j)"
+                      ></button>
+                    }
+                    <div class="columns is-multiline">
+                      <div class="column is-6">
+                        <div class="field">
+                          <label class="label">{{ 'marathon.submit.category.name.label' | translate }}</label>
+                          <div class="control">
+                            <input class="input"
+                                   type="text"
+                                   [(ngModel)]="category.name"
+                                   name="categoryName{{i}}-{{j}}"
+                                   [ngClass]="{'is-danger': categoryName.invalid}"
+                                   required
+                                   maxlength="100"
+                                   #categoryName="ngModel">
+                            <p class="help is-pulled-right">{{ category.name?.length }}/100</p>
+                          </div>
+                          @if (categoryName.invalid) {
+                            <div>
+                              @if (categoryName.errors.required) {
+                                <p class="help is-danger">
+                                  {{ 'marathon.submit.category.name.error.required' | translate }}</p>
+                              }
+                            </div>
+                          }
+                        </div>
+                      </div>
+                      <div class="column is-6">
+                        <div class="field">
+                          <label class="label">Estimation de la durée de la run</label>
+                          <p class="help">Durée en "RTA", soit le temps réel entre le début et la fin de la run. Pas de
+                            temps sans chargements, ou temps ingame.</p>
                           <input class="input"
                                  type="text"
-                                 [(ngModel)]="category.name"
-                                 name="categoryName{{i}}-{{j}}"
-                                 [ngClass]="{'is-danger': categoryName.invalid}"
+                                 [(ngModel)]="category.estimateHuman"
+                                 name="categoryEstimate{{i}}-{{j}}"
+                                 placeholder="HH:MM:SS"
+                                 [ngClass]="{'is-danger': categoryEstimate.invalid}"
                                  required
-                                 maxlength="100"
-                                 #categoryName="ngModel">
-                          <p class="help is-pulled-right">{{ category.name?.length }}/100</p>
+                                 pattern="^(?:\d{1,3}):(?:[012345]\d):(?:[012345]\d)$"
+                                 [appMinDurationValidator]="1"
+                                 #categoryEstimate="ngModel">
+                          @if (categoryEstimate.invalid) {
+                            <div>
+                              @if (categoryEstimate.errors.required) {
+                                <p class="help is-danger">
+                                  {{ 'marathon.submit.category.estimate.error.required' | translate }}</p>
+                              }
+                              @if (categoryEstimate.errors.pattern) {
+                                <p class="help is-danger">
+                                  {{ 'marathon.submit.category.estimate.error.pattern' | translate }}</p>
+                              }
+                              @if (categoryEstimate.errors.minDuration) {
+                                <p class="help is-danger">
+                                  {{ 'marathon.submit.category.estimate.error.min' | translate }}</p>
+                              }
+                            </div>
+                          }
                         </div>
-                        @if (categoryName.invalid) {
-                          <div>
-                            @if (categoryName.errors.required) {
-                              <p class="help is-danger">
-                                {{ 'marathon.submit.category.name.error.required' | translate }}</p>
-                            }
-                          </div>
-                        }
                       </div>
-                    </div>
-                    <div class="column is-6">
-                      <div class="field">
-                        <label class="label">Estimation de la durée de la run</label>
-                        <p class="help">Durée en "RTA", soit le temps réel entre le début et la fin de la run. Pas de
-                          temps sans chargements, ou temps ingame.</p>
-                        <input class="input"
-                               type="text"
-                               [(ngModel)]="category.estimateHuman"
-                               name="categoryEstimate{{i}}-{{j}}"
-                               placeholder="HH:MM:SS"
-                               [ngClass]="{'is-danger': categoryEstimate.invalid}"
-                               required
-                               pattern="^(?:\d{1,3}):(?:[012345]\d):(?:[012345]\d)$"
-                               [appMinDurationValidator]="1"
-                               #categoryEstimate="ngModel">
-                        @if (categoryEstimate.invalid) {
-                          <div>
-                            @if (categoryEstimate.errors.required) {
-                              <p class="help is-danger">
-                                {{ 'marathon.submit.category.estimate.error.required' | translate }}</p>
-                            }
-                            @if (categoryEstimate.errors.pattern) {
-                              <p class="help is-danger">
-                                {{ 'marathon.submit.category.estimate.error.pattern' | translate }}</p>
-                            }
-                            @if (categoryEstimate.errors.minDuration) {
-                              <p class="help is-danger">
-                                {{ 'marathon.submit.category.estimate.error.min' | translate }}</p>
-                            }
+                      <div class="column is-6">
+                        <div class="field">
+                          <label class="label">{{ 'marathon.submit.category.type.label' | translate }}</label>
+                          <div class="select is-fullwidth">
+                            <select [(ngModel)]="category.type" [disabled]="!marathonService.marathon.hasMultiplayer"
+                                    name="type-{{i}}-{{j}}">
+                              <option value="SINGLE"
+                                      [disabled]="category.opponents && category.opponents.length > 0">
+                                {{ 'marathon.schedule.type.SINGLE' | translate }}
+                              </option>
+                              <option value="COOP">{{ 'marathon.schedule.type.COOP' | translate }}</option>
+                              <option value="RELAY">{{ 'marathon.schedule.type.RELAY' | translate }}</option>
+                            </select>
                           </div>
-                        }
-                      </div>
-                    </div>
-                    <div class="column is-6">
-                      <div class="field">
-                        <label class="label">{{ 'marathon.submit.category.type.label' | translate }}</label>
-                        <div class="select is-fullwidth">
-                          <select [(ngModel)]="category.type" [disabled]="!marathonService.marathon.hasMultiplayer"
-                                  name="type-{{i}}-{{j}}">
-                            <option value="SINGLE"
-                                    [disabled]="category.opponents && category.opponents.length > 0">
-                              {{ 'marathon.schedule.type.SINGLE' | translate }}
-                            </option>
-                            <option value="COOP">{{ 'marathon.schedule.type.COOP' | translate }}</option>
-                            <option value="RELAY">{{ 'marathon.schedule.type.RELAY' | translate }}</option>
-                          </select>
-                        </div>
-                        @if (['COOP', 'RELAY'].includes(category.type)) {
-                          <div>
-                            @if (!category.code) {
+                          @if (['COOP', 'RELAY'].includes(category.type)) {
+                            <div>
+                              @if (!category.code) {
                                 <p class="help">
-                                  {{'marathon.submit.category.code.help.noCode' | translate}}
+                                  {{ 'marathon.submit.category.code.help.noCode' | translate }}
                                 </p>
                               }
                               @if (category.opponents && category.opponents.length > 0) {
-                              <p class="help"
-                              >{{
-                                  'marathon.submit.category.opponent.with' |
-                                    translate
-                                }}
-                                @for (opponent of category.opponents; track opponent; let i = $index) {
-                                  <span>
+                                <p class="help"
+                                >{{
+                                    'marathon.submit.category.opponent.with' |
+                                      translate
+                                  }}
+                                  @for (opponent of category.opponents; track opponent; let i = $index) {
+                                    <span>
                                       @if (i > 0) {
                                         <span>, </span>
                                       }
-                                    <app-user-link [user]="opponent.user" [isLink]="true" [showAvatar]="true"/>
+                                      <app-user-link [user]="opponent.user" [isLink]="true" [showAvatar]="true"/>
                                     </span>
-                                }
-                              </p>
-                            }
-                            @if (category.code) {
+                                  }
+                                </p>
+                              }
+                              @if (category.code) {
+                                <p class="help">
+                                  {{ 'marathon.submit.category.code.help.withCode' | translate }}
+                                  <b>{{ category.code }}</b></p>
+                              }
+                            </div>
+                          }
+                        </div>
+                        @if (category.type !== 'SINGLE') {
+                          <div class="field">
+                            <label for="expectedOpponentCount" class="label">
+                              {{ 'marathon.submit.category.expectedRunners.label' | translate }}
+                            </label>
+                            <div class="control">
+                              <input
+                                type="number"
+                                id="expectedOpponentCount"
+                                name="expectedOpponentCount"
+                                [(ngModel)]="category.expectedRunnerCount"
+                                class="input"
+                              />
                               <p class="help">
-                                {{ 'marathon.submit.category.code.help.withCode' | translate }}
-                                <b>{{ category.code }}</b></p>
-                            }
+                                {{ 'marathon.submit.category.expectedRunners.help.explanation' | translate }}
+                              </p>
+                            </div>
                           </div>
                         }
                       </div>
-                      @if (category.type !== 'SINGLE') {
+                      <div class="column is-6">
                         <div class="field">
-                          <label for="expectedOpponentCount" class="label">
-                            {{ 'marathon.submit.category.expectedRunners.label' | translate }}
-                          </label>
-                          <div class="control">
-                            <input
-                              type="number"
-                              id="expectedOpponentCount"
-                              name="expectedOpponentCount"
-                              [(ngModel)]="category.expectedRunnerCount"
-                              class="input"
-                            />
-                            <p class="help">
-                              {{ 'marathon.submit.category.expectedRunners.help.explanation' | translate }}
-                            </p>
+                          <label class="label">Participation à une race</label>
+                          <p class="help">
+                            Il n'est pas nécessaire d'indiquer avec quels joueurs la course est prévue.
+                            Les personnes concernées seront contactées par l'équipe de review si une course à plusieurs
+                            joueurs est organisée. </p>
+                          <div class="control is-flex">
+                            <span
+                              style="margin-right: 0.5rem">Je ne souhaite pas participer à une race sur cette run</span>
+                            <nwb-switch [(ngModel)]="category.canRace" name="canRace">
+                              <span>Je suis d'accord pour participer à une race sur cette run</span>
+                            </nwb-switch>
                           </div>
-                        </div>
-                      }
-                    </div>
-                    <div class="column is-6">
-                      <div class="field">
-                        <label class="label">Participation à une race</label>
-                        <p class="help">
-                          Il n'est pas nécessaire d'indiquer avec quels joueurs la course est prévue.
-                          Les personnes concernées seront contactées par l'équipe de review si une course à plusieurs
-                          joueurs est organisée. </p>
-                        <div class="control is-flex">
-                          <span style="margin-right: 0.5rem">Je ne souhaite pas participer à une race sur cette run</span>
-                          <nwb-switch [(ngModel)]="category.canRace" name="canRace">
-                            <span>Je suis d'accord pour participer à une race sur cette run</span>
-                          </nwb-switch>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="field">
-                    <label class="label">Points forts de la catégorie</label>
-                    <p class="help">Donnez nous des détails sur ce qui rend cette catégorie intéressante</p>
-                    <div class="control">
+                    <div class="field">
+                      <label class="label">Points forts de la catégorie</label>
+                      <p class="help">Donnez nous des détails sur ce qui rend cette catégorie intéressante</p>
+                      <div class="control">
                           <textarea class="textarea"
                                     rows=3
                                     maxlength="300"
@@ -593,53 +599,54 @@
                                     name="categoryDescription{{i}}-{{j}}"
                                     required
                                     #categoryDescription="ngModel"></textarea>
-                      <p class="help is-pulled-right">{{ category.description?.length }}/300</p>
-                    </div>
-                    @if (categoryDescription.invalid) {
-                      <div>
-                        @if (categoryDescription.errors.required) {
-                          <p class="help is-danger">
-                            Une réponse à cette question est requise</p>
-                        }
+                        <p class="help is-pulled-right">{{ category.description?.length }}/300</p>
                       </div>
-                    }
-                  </div>
-                  <div class="field">
-                    <label class="label">{{ 'marathon.submit.category.video.label' | translate }}</label>
-                    <p class="help">Lien vers une vidéo commentée de votre run.
-                      Le commentaire peut être réalisé par vous-même ou quelqu'un d'autre.
-                      Merci de laisser la vidéo la plus "naturelle" possible (pas de pauses/montage) pour permettre
-                      d'évaluer au mieux rythme de la run.</p>
-                    <div class="control">
-                      <input class="input"
-                             type="url"
-                             [(ngModel)]="category.video"
-                             [ngClass]="{'is-danger': categoryVideo.invalid || !testVideo.checkValidity()}"
-                             name="video{{i}}-{{j}}"
-                             [required]="marathonService.marathon.videoRequired"
-                             maxlength="100"
-                             #categoryVideo="ngModel" #testVideo>
-                      <p class="help is-pulled-right">{{ category.video?.length }}/100</p>
+                      @if (categoryDescription.invalid) {
+                        <div>
+                          @if (categoryDescription.errors.required) {
+                            <p class="help is-danger">
+                              Une réponse à cette question est requise</p>
+                          }
+                        </div>
+                      }
                     </div>
-                    @if (categoryVideo.invalid) {
-                      <div>
-                        @if (categoryVideo.errors.required) {
-                          <p class="help is-danger">
-                            {{ 'marathon.submit.category.video.error.required' | translate }}</p>
-                        }
+                    <div class="field">
+                      <label class="label">{{ 'marathon.submit.category.video.label' | translate }}</label>
+                      <p class="help">Lien vers une vidéo commentée de votre run.
+                        Le commentaire peut être réalisé par vous-même ou quelqu'un d'autre.
+                        Merci de laisser la vidéo la plus "naturelle" possible (pas de pauses/montage) pour permettre
+                        d'évaluer au mieux rythme de la run.</p>
+                      <div class="control">
+                        <input class="input"
+                               type="url"
+                               [(ngModel)]="category.video"
+                               [ngClass]="{'is-danger': categoryVideo.invalid || !testVideo.checkValidity()}"
+                               name="video{{i}}-{{j}}"
+                               [required]="marathonService.marathon.videoRequired"
+                               maxlength="100"
+                               #categoryVideo="ngModel" #testVideo>
+                        <p class="help is-pulled-right">{{ category.video?.length }}/100</p>
                       </div>
-                    }
-                    @if (!testVideo.checkValidity()) {
-                      <p class="help is-danger">
-                        {{ 'errors.format.url' | translate }}
-                      </p>
-                    }
-                  </div>
-                  <div class="field">
-                    <label class="label">Temps forts de la run</label>
-                    <p class="help">Indiquez ici quelques temps forts de votre run avec le timecode associé sur la vidéo
-                      en lien avec cette run. N'hésitez pas à rajouter un peu de contexte en quelques mots.</p>
-                    <div class="control">
+                      @if (categoryVideo.invalid) {
+                        <div>
+                          @if (categoryVideo.errors.required) {
+                            <p class="help is-danger">
+                              {{ 'marathon.submit.category.video.error.required' | translate }}</p>
+                          }
+                        </div>
+                      }
+                      @if (!testVideo.checkValidity()) {
+                        <p class="help is-danger">
+                          {{ 'errors.format.url' | translate }}
+                        </p>
+                      }
+                    </div>
+                    <div class="field">
+                      <label class="label">Temps forts de la run</label>
+                      <p class="help">Indiquez ici quelques temps forts de votre run avec le timecode associé sur la
+                        vidéo
+                        en lien avec cette run. N'hésitez pas à rajouter un peu de contexte en quelques mots.</p>
+                      <div class="control">
                           <textarea class="textarea"
                                     rows=3
                                     maxlength="1000"
@@ -648,117 +655,117 @@
                                     name="categoryHighlights{{i}}-{{j}}"
                                     required
                                     #categoryHighlights="ngModel"></textarea>
-                      <p class="help is-pulled-right">{{ category.highlights?.length }}/1000</p>
-                    </div>
-                    @if (categoryHighlights.invalid) {
-                      <div>
-                        @if (categoryHighlights.errors.required) {
-                          <p class="help is-danger">
-                            Une réponse à cette question est requise</p>
-                        }
+                        <p class="help is-pulled-right">{{ category.highlights?.length }}/1000</p>
                       </div>
-                    }
+                      @if (categoryHighlights.invalid) {
+                        <div>
+                          @if (categoryHighlights.errors.required) {
+                            <p class="help is-danger">
+                              Une réponse à cette question est requise</p>
+                          }
+                        </div>
+                      }
+                    </div>
+                    <div class="is-clearfix"></div>
                   </div>
-                  <div class="is-clearfix"></div>
-                </div>
-              </article>
-            </div>
-          }
-        </div>
+                </article>
+              </div>
+            }
+          </div>
 
-        <div class="is-clearfix"></div>
-        <!-- Incentives -->
-        <p>
-          Suggestions d'incentives
-          <button type="button"
-                  class="button is-small is-primary"
-                  style="margin-left: 5px"
-                  (click)="addIncentive(i)"
-                  [disabled]="game.incentives.length > 5">
-            <fa-icon [icon]="faPlus"></fa-icon>
-          </button>
-        </p>
-        <hr class="has-background-grey-lighter"/>
-        <div class="columns is-multiline">
-          @for (incentive of game.incentives; track incentive; let j = $index) {
-            <div class="column is-full">
-              <article class="message">
-                <div class="message-body">
-                  @if (game.incentives.length > 1) {
-                    <button class="delete is-absolute"
-                            style="right: 25px;"
-                            (click)="removeIncentive(i, j)"
-                    ></button>
-                  }
-                  <div class="columns is-multiline">
-                    <div class="column is-4">
-                      <div class="field">
-                        <label class="label">Titre de l'incentive</label>
-                        <div class="control">
+          <div class="is-clearfix"></div>
+          <hr class="has-background-grey-lighter"/>
+          <!-- Incentives -->
+          <p class="submission-label">
+            Suggestions d'incentives
+            <button type="button"
+                    class="button is-small is-primary"
+                    style="margin-left: 5px"
+                    (click)="addIncentive(i)"
+                    [disabled]="game.incentives.length > 5">
+              <fa-icon [icon]="faPlus"></fa-icon>
+            </button>
+          </p>
+          <div class="columns is-multiline">
+            @for (incentive of game.incentives; track incentive; let j = $index) {
+              <div class="column is-full">
+                <article class="message">
+                  <div class="message-body">
+                    @if (game.incentives.length > 1) {
+                      <button class="delete is-absolute"
+                              style="right: 25px;"
+                              (click)="removeIncentive(i, j)"
+                      ></button>
+                    }
+                    <div class="columns is-multiline">
+                      <div class="column is-4">
+                        <div class="field">
+                          <label class="label">Titre de l'incentive</label>
+                          <div class="control">
+                            <input class="input"
+                                   type="text"
+                                   [(ngModel)]="incentive.name"
+                                   name="incentiveName{{i}}-{{j}}"
+                                   [ngClass]="{'is-danger': incentiveName.invalid}"
+                                   required
+                                   maxlength="100"
+                                   #incentiveName="ngModel">
+                            <p class="help is-pulled-right">{{ incentive.name?.length }}/100</p>
+                          </div>
+                          @if (incentiveName.invalid) {
+                            <div>
+                              @if (incentiveName.errors.required) {
+                                <p class="help is-danger">Champ requis</p>
+                              }
+                            </div>
+                          }
+                        </div>
+                      </div>
+                      <div class="column is-4">
+                        <div class="field">
+                          <label class="label">Type d'incentive</label>
+                          <div class="select is-fullwidth">
+                            <select [(ngModel)]="incentive.incentiveType" name="incentiveType-{{i}}-{{j}}">
+                              <option value="BONUS_CONTENT">Contenu bonus</option>
+                              <option value="BONUS_RUN">Run bonus</option>
+                              <option value="BID_WAR">Bid war</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="column is-4">
+                        <div class="field">
+                          <label class="label">Durée estimée du contenu bonus</label>
+                          <p class="help">Durée en "RTA", soit le temps réel entre le début et la fin de la run. Pas de
+                            temps sans chargements, ou temps ingame.</p>
                           <input class="input"
                                  type="text"
-                                 [(ngModel)]="incentive.name"
-                                 name="incentiveName{{i}}-{{j}}"
-                                 [ngClass]="{'is-danger': incentiveName.invalid}"
-                                 required
-                                 maxlength="100"
-                                 #incentiveName="ngModel">
-                          <p class="help is-pulled-right">{{ incentive.name?.length }}/100</p>
-                        </div>
-                        @if (incentiveName.invalid) {
-                          <div>
-                            @if (incentiveName.errors.required) {
-                              <p class="help is-danger">Champ requis</p>
-                            }
-                          </div>
-                        }
-                      </div>
-                    </div>
-                    <div class="column is-4">
-                      <div class="field">
-                        <label class="label">Type d'incentive</label>
-                        <div class="select is-fullwidth">
-                          <select [(ngModel)]="incentive.incentiveType" name="incentiveType-{{i}}-{{j}}">
-                            <option value="BONUS_CONTENT">Contenu bonus</option>
-                            <option value="BONUS_RUN">Run bonus</option>
-                            <option value="BID_WAR">Bid war</option>
-                          </select>
+                                 [(ngModel)]="incentive.durationHuman"
+                                 name="incentiveDuration{{i}}-{{j}}"
+                                 placeholder="HH:MM:SS"
+                                 [ngClass]="{'is-danger': incentiveDuration.invalid}"
+                                 [required]="['BONUS_CONTENT', 'BONUS_RUN'].includes(incentive.incentiveType)"
+                                 [disabled]="incentive.incentiveType === 'BID_WAR'"
+                                 pattern="^(?:\d{1,3}):(?:[012345]\d):(?:[012345]\d)$"
+                                 #incentiveDuration="ngModel">
+                          @if (incentiveDuration.invalid) {
+                            <div>
+                              @if (incentiveDuration.errors.required) {
+                                <p class="help is-danger">Champ requis</p>
+                              }
+                              @if (incentiveDuration.errors.pattern) {
+                                <p class="help is-danger">
+                                  {{ 'marathon.submit.category.estimate.error.pattern' | translate }}</p>
+                              }
+                            </div>
+                          }
                         </div>
                       </div>
                     </div>
-                    <div class="column is-4">
-                      <div class="field">
-                        <label class="label">Durée estimée du contenu bonus</label>
-                        <p class="help">Durée en "RTA", soit le temps réel entre le début et la fin de la run. Pas de
-                          temps sans chargements, ou temps ingame.</p>
-                        <input class="input"
-                               type="text"
-                               [(ngModel)]="incentive.durationHuman"
-                               name="incentiveDuration{{i}}-{{j}}"
-                               placeholder="HH:MM:SS"
-                               [ngClass]="{'is-danger': incentiveDuration.invalid}"
-                               [required]="['BONUS_CONTENT', 'BONUS_RUN'].includes(incentive.incentiveType)"
-                               [disabled]="incentive.incentiveType === 'BID_WAR'"
-                               pattern="^(?:\d{1,3}):(?:[012345]\d):(?:[012345]\d)$"
-                               #incentiveDuration="ngModel">
-                        @if (incentiveDuration.invalid) {
-                          <div>
-                            @if (incentiveDuration.errors.required) {
-                              <p class="help is-danger">Champ requis</p>
-                            }
-                            @if (incentiveDuration.errors.pattern) {
-                              <p class="help is-danger">
-                                {{ 'marathon.submit.category.estimate.error.pattern' | translate }}</p>
-                            }
-                          </div>
-                        }
-                      </div>
-                    </div>
-                  </div>
 
-                  <div class="field">
-                    <label class="label">Description de l'incentive</label>
-                    <div class="control">
+                    <div class="field">
+                      <label class="label">Description de l'incentive</label>
+                      <div class="control">
                           <textarea class="textarea"
                                     rows=3
                                     maxlength="300"
@@ -767,22 +774,24 @@
                                     name="incentiveDescription{{i}}-{{j}}"
                                     required
                                     #incentiveDescription="ngModel"></textarea>
-                      <p class="help is-pulled-right">{{ incentive.description?.length }}/300</p>
-                    </div>
-                    @if (incentiveDescription.invalid) {
-                      <div>
-                        @if (incentiveDescription.errors.required) {
-                          <p class="help is-danger">
-                            Champ requis</p>
-                        }
+                        <p class="help is-pulled-right">{{ incentive.description?.length }}/300</p>
                       </div>
-                    }
+                      @if (incentiveDescription.invalid) {
+                        <div>
+                          @if (incentiveDescription.errors.required) {
+                            <p class="help is-danger">
+                              Champ requis</p>
+                          }
+                        </div>
+                      }
+                    </div>
+                    <div class="is-clearfix"></div>
                   </div>
-                  <div class="is-clearfix"></div>
-                </div>
-              </article>
-            </div>
-          }
+                </article>
+              </div>
+            }
+          </div>
+          <div class="is-clearfix"></div>
         </div>
       }
     </div>
