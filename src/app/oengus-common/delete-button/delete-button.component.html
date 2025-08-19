@@ -16,7 +16,7 @@
   }
   @if (showConfirm) {
     <a class="is-tooltip-danger" (click)="cancel()"
-      style="margin-left: 0.4rem"
+      [style]="'margin-left: 0.4rem'"
       nwbToolTipPosition="left"
       [nwbToolTip]="cancelText">
       <fa-icon [icon]="faTimes"></fa-icon>

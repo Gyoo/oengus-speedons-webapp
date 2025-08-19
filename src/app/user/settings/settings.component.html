@@ -12,7 +12,7 @@
       <input class="input"
         type="text"
         [(ngModel)]="deleteUsername"
-        name="deleteShortname" style="margin-bottom: 1rem">
+        name="deleteShortname" [style]="'margin-bottom: 1rem'">
     </section>
     <footer class="modal-card-foot">
       <button class="button is-warning"
@@ -258,7 +258,7 @@
           <input class="input"
             type="text"
             [(ngModel)]="deleteUsername"
-            name="deleteShortname" style="margin-bottom: 1rem">
+            name="deleteShortname" [style]="'margin-bottom: 1rem'">
           <br>
             <button class="button is-primary" type="button"
               [ngClass]="{'is-loading': loading}"
@@ -267,14 +267,14 @@
             </button>
             <button class="button is-danger" type="button" (click)="deactivateConfirm = false"
               [ngClass]="{'is-loading': loading}"
-              style="margin-left: 1rem">
+              [style]="'margin-left: 1rem'">
               {{'action.cancel' | translate}}
             </button>
           </div>
         }
 
         <!-- DELETING account -->
-        <div class="control" style="margin-left: 0.5rem">
+        <div class="control" [style]="'margin-left: 0.5rem'">
           <button class="button is-danger" type="button" [disabled]="deleteConfirm" (click)="deleteConfirm = true">
             {{ 'user.settings.deletingAccount.settingsDeleteBtn' | translate }}
           </button>

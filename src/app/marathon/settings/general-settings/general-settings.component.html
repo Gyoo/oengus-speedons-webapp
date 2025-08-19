@@ -192,7 +192,7 @@
       <div class="field">
         <label class="label">{{ 'marathon.settings.type.label' | translate}}</label>
         <div class="control is-flex">
-          <span style="margin-right: 0.5rem">{{ 'marathon.settings.type.online' | translate}}</span>
+          <span [style]="'margin-right: 0.5rem'">{{ 'marathon.settings.type.online' | translate}}</span>
           <nwb-switch [(ngModel)]="settings.onsite" name="isOnsite">
             <span>{{ 'marathon.settings.type.onsite' | translate}}</span>
           </nwb-switch>
@@ -493,7 +493,7 @@
       <div class="field">
         <label class="label">{{ 'marathon.settings.privacy.label' | translate}}</label>
         <div class="control is-flex">
-          <span style="margin-right: 0.5rem">{{ 'marathon.settings.privacy.public' | translate}}</span>
+          <span [style]="'margin-right: 0.5rem'">{{ 'marathon.settings.privacy.public' | translate}}</span>
           <nwb-switch [(ngModel)]="settings.isPrivate" name="isPrivate">
             <span>{{ 'marathon.settings.privacy.private' | translate}}</span>
           </nwb-switch>
@@ -577,7 +577,7 @@
       <div class="field">
         <label for="announceAcceptedSubmissions" class="label">{{ 'marathon.settings.webhook.announceAcceptedSubmissions.title' | translate}}</label>
         <div class="control is-flex">
-          <span style="margin-right: 0.5rem">{{ 'global.disabled' | translate}}</span>
+          <span [style]="'margin-right: 0.5rem'">{{ 'global.disabled' | translate}}</span>
           <nwb-switch [(ngModel)]="settings.announceAcceptedSubmissions" name="announceAcceptedSubmissions" id="announceAcceptedSubmissions">
             <span>{{ 'global.enabled' | translate}}</span>
           </nwb-switch>

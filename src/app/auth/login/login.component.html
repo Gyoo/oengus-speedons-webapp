@@ -48,7 +48,7 @@
           }
 
           <div class="control">
-            <button type="submit" style="margin-right: 1rem"
+            <button type="submit" [style]="'margin-right: 1rem'"
               [ngClass]="{'is-loading': loading}"
               (click)="performLogin()"
             class="button is-primary">{{'login.button' | translate}}</button>

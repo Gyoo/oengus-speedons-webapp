@@ -29,7 +29,7 @@
           <li [ngClass]="{'is-active':active==='general'}">
             <a (click)="active = 'general'">{{'marathon.settings.tabs.general' | translate}}</a>
           </li>
-          <li [ngClass]="{'is-active':active==='discord'}" style="display: none;">
+          <li [ngClass]="{'is-active':active==='discord'}" [style]="'display: none;'">
             <a (click)="active = 'discord'">{{'marathon.settings.tabs.discord' | translate}}</a>
           </li>
           <li [ngClass]="{'is-active':active==='submissions'}">
@@ -111,14 +111,14 @@
             <input class="input"
               type="text"
               [(ngModel)]="deleteShortname"
-              name="deleteShortname" style="margin-bottom: 1rem">
+              name="deleteShortname" [style]="'margin-bottom: 1rem'">
             <br>
               <button class="button is-primary" type="button"
                 [disabled]="deleteShortname !== settings.id" (click)="marathonService.delete(deleteShortname)">
                 {{'action.confirm' | translate}}
               </button>
               <button class="button is-danger" type="button" (click)="deleteConfirm = false"
-                style="margin-left: 1rem">
+                [style]="'margin-left: 1rem'">
                 {{'action.cancel' | translate}}
               </button>
             </div>

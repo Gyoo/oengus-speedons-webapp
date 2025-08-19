@@ -17,7 +17,7 @@
         </p>
         <p class="subtitle is-6 has-text-dark">
           @for (theme of game.themes; track theme){
-            <span class="tag is-info is-small" style="margin-right: 2px">{{theme}}</span>
+            <span class="tag is-info is-small" [style]="'margin-right: 2px'">{{theme}}</span>
           }
         </p>
         <p class="subtitle is-6 has-text-dark">

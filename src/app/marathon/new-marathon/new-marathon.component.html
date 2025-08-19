@@ -150,7 +150,7 @@
     <div class="field">
       <label class="label">{{ 'marathon.settings.type.label' | translate}}</label>
       <div class="control is-flex">
-        <span style="margin-right: 0.5rem">{{ 'marathon.settings.type.online' | translate}}</span>
+        <span [style]="'margin-right: 0.5rem'">{{ 'marathon.settings.type.online' | translate}}</span>
         <nwb-switch [(ngModel)]="marathon.onsite" name="isOnsite">
           <span>{{ 'marathon.settings.type.onsite' | translate}}</span>
         </nwb-switch>
@@ -159,7 +159,7 @@
     <div class="field">
       <label class="label">{{ 'marathon.settings.privacy.label' | translate}}</label>
       <div class="control is-flex">
-        <span style="margin-right: 0.5rem">{{ 'marathon.settings.privacy.public' | translate}}</span>
+        <span [style]="'margin-right: 0.5rem'">{{ 'marathon.settings.privacy.public' | translate}}</span>
         <nwb-switch [(ngModel)]="marathon.isPrivate" name="isPrivate">
           <span>{{ 'marathon.settings.privacy.private' | translate}}</span>
         </nwb-switch>

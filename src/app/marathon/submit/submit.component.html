@@ -352,7 +352,7 @@
                     <button type="button" class="button">
                       <label class="checkbox">
                         <input type="checkbox" [(ngModel)]="game.emulated" name="emulated{{i}}"
-                               style="margin-right: 0.25rem">{{ 'marathon.submit.game.console.emulated' | translate }}
+                               [style]="'margin-right: 0.25rem'">{{ 'marathon.submit.game.console.emulated' | translate }}
                       </label>
                     </button>
                   </fieldset>
@@ -362,7 +362,7 @@
                     <button type="button" class="button" (click)="clickEmulatorButton(game, $event)">
                       <label class="checkbox">
                         <input type="checkbox" [checked]="game.emulated" name="emulated{{i}}"
-                               style="margin-right: 0.25rem">{{ 'marathon.submit.game.console.emulated' | translate }}
+                               [style]="'margin-right: 0.25rem'">{{ 'marathon.submit.game.console.emulated' | translate }}
                       </label>
                     </button>
                   </p>
@@ -578,7 +578,7 @@
                             joueurs est organisée. </p>
                           <div class="control is-flex">
                             <span
-                              style="margin-right: 0.5rem">Je ne souhaite pas participer à une race sur cette run</span>
+                              [style]="'margin-right: 0.5rem'">Je ne souhaite pas participer à une race sur cette run</span>
                             <nwb-switch [(ngModel)]="category.canRace" name="canRace">
                               <span>Je suis d'accord pour participer à une race sur cette run</span>
                             </nwb-switch>
@@ -680,7 +680,7 @@
             Suggestions d'incentives
             <button type="button"
                     class="button is-small is-primary"
-                    style="margin-left: 5px"
+                    [style]="'margin-left: 5px'"
                     (click)="addIncentive(i)"
                     [disabled]="game.incentives.length > 5">
               <fa-icon [icon]="faPlus"></fa-icon>
@@ -693,7 +693,7 @@
                   <div class="message-body">
                     @if (game.incentives.length > 1) {
                       <button class="delete is-absolute"
-                              style="right: 25px;"
+                              [style]="'right: 25px;'"
                               (click)="removeIncentive(i, j)"
                       ></button>
                     }
@@ -831,7 +831,7 @@
               {{ 'action.confirm' | translate }}
             </button>
             <button class="button is-danger" type="button" (click)="deleteConfirm = false"
-                    style="margin-left: 1rem">
+                    [style]="'margin-left: 1rem'">
               {{ 'action.cancel' | translate }}
             </button>
           </div>
