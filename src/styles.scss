@@ -247,3 +247,8 @@ ng-select {
   font-weight: bold;
 }
 
+fieldset[disabled] {
+  input, textarea, select {
+    border-color: #5e5d5d !important;
+  }
+}

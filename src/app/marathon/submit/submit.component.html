@@ -1,6 +1,11 @@
 <h1 class="title">{{ 'marathon.submit.title' | translate }}</h1>
 
-<hr/>
+<app-import-run-dialog
+  [modalActive]="importDialogOpen"
+  [savedGames]="savedGames"
+  (cancel)="importCanceled()"
+  (doImport)="startImport($event)"
+/>
 
 <div class="modal" [ngClass]="{ 'is-active': discordRequired }">
   <div class="modal-background"></div>
@@ -53,14 +58,13 @@
 
 <app-submit-header/>
 
-<hr/>
-
 @if (!marathonService.marathon.submitsOpen) {
   <div class="notification is-info">
     {{ 'marathon.submit.submitsClosed' | translate }}
   </div>
 }
 
+<!-- TODO: pain, split this up into components -->
 <form ngForm="submitForm" (ngSubmit)="submit()" #form="ngForm">
   <h3 class="title is-3">{{ 'marathon.submit.availabilities.label' | translate }} <br/>
     <span class="is-size-6" [innerHTML]="'footer.text' | translate:{'timezone': timezone}"></span>
@@ -81,9 +85,9 @@
     <p>{{ 'marathon.schedule.dstChange' | translate }}</p>
   }
   <button type="button"
-          class="button is-primary"
+          class="button is-primaryavailAdd"
           (click)="addAvailability()"
-          style="margin-bottom: 1rem">
+          >
     {{ 'marathon.submit.availabilities.add' | translate }}
   </button>
   @if (submission.availabilities.length === 0) {
@@ -151,14 +155,14 @@
                 </p>
               }
             </td>
-            <td style="vertical-align: middle">
+            <td class="v-align-middle">
               @if (!!availability.from && !!availability.to) {
                 <a (click)="duplicateAvailabilityToNextDay(i)"
-                   style="margin-right: 0.5rem" [nwbToolTip]="'marathon.submit.availabilities.duplicate' | translate">
+                   class="dupeBtn" [nwbToolTip]="'marathon.submit.availabilities.duplicate' | translate">
                   <fa-icon [icon]="faClone"></fa-icon>
                 </a>
               }
-              <button class="delete" (click)="removeAvailability(i)" style="margin: auto"></button>
+              <button class="delete rmAvail" (click)="removeAvailability(i)"></button>
             </td>
           </tr>
         }
@@ -274,18 +278,28 @@
 
     <div class="box is-relative">
       <p class="is-pulled-left">{{ 'marathon.submit.table.games' | translate }}</p>
-      <button type="button" class="button is-small is-primary is-pulled-left" style="margin-left: 5px"
+      <div class="buttons">
+        <button type="button" class="button is-small is-primary is-pulled-left addBtn"
               (click)="addGame()"
-              [disabled]="!marathonService.marathon.unlimitedGames && categoriesLength >=
+                [disabled]="!marathonService.marathon.unlimitedGames && categoriesLength >=
                     marathonService.marathon.maxGamesPerRunner">
-        <fa-icon [icon]="faPlus"></fa-icon>
-      </button>
+          <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+        <button
+          type="button"
+          class="button is-small is-info is-pulled-left"
+          (click)="importDialogOpen = true"
+          [disabled]="!marathonService.marathon.unlimitedGames && submission.games.length >= marathonService.marathon.maxGamesPerRunner"
+        >
+          <fa-icon [icon]="faImport"/>
+          <span>Import saved games</span>
+        </button>
+      </div>
       <div class="is-clearfix"></div>
 
       @for (game of submission.games; track game; let i = $index) {
         <hr class="has-background-grey"/>
-        <button class="delete is-absolute"
-                style="right: 10px;"
+        <button class="delete is-absolute delBtn"
                 (click)="removeGame(i)"></button>
         <div class="columns is-multiline">
           <div class="column is-half">
@@ -423,8 +437,7 @@
           {{ 'marathon.submit.table.categories' | translate }}
           @if (categoriesLength < marathonService.marathon.maxGamesPerRunner) {
             <button type="button"
-                    class="button is-small is-primary"
-                    style="margin-left: 5px"
+                    class="button is-small is-primaryaddBtn"
                     (click)="addCategory(i)"
                     [disabled]="!marathonService.marathon.unlimitedCategories && categoriesLength >= marathonService.marathon.maxGamesPerRunner">
               <fa-icon [icon]="faPlus"></fa-icon>
@@ -439,8 +452,7 @@
               <article class="message">
                 <div class="message-body">
                   @if (game.categories.length > 1) {
-                    <button class="delete is-absolute"
-                            style="right: 25px;"
+                    <button class="delete is-absolutedelBtn"
                             (click)="removeCategory(i, j)"
                     ></button>
                   }
@@ -518,11 +530,6 @@
                         </div>
                         @if (['COOP', 'RELAY'].includes(category.type)) {
                           <div>
-                            @if (!category.code) {
-                              <p class="help">
-                                {{ 'marathon.submit.category.code.help.noCode' | translate }}
-                              </p>
-                            }
                             @if (category.opponents && category.opponents.length > 0) {
                               <p class="help"
                               >{{
@@ -540,9 +547,12 @@
                               </p>
                             }
                             @if (category.code) {
-                              <p class="help">
+                              <p >
                                 {{ 'marathon.submit.category.code.help.withCode' | translate }}
-                                <b>{{ category.code }}</b></p>
+                                <b>{{ category.code }}</b></p>} @else {
+                                <p>
+                                  {{'marathon.submit.category.code.help.noCode' | translate}}
+                                </p>
                             }
                           </div>
                         }
@@ -819,7 +829,7 @@
           </div>
         }
         @if (deleteConfirm) {
-          <div class="control">
+          <div class="control buttons">
             <button class="button is-primary" type="button"
                     (click)="deleteSubmission(marathonService.marathon.id, submission.id)">
               {{ 'action.confirm' | translate }}

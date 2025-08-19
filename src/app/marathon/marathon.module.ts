@@ -76,6 +76,7 @@ import { SubmitMultiplayerJoinComponent } from './submit/submit-multiplayer-join
 import { SubmitShareButtonsComponent } from './submit/submit-share-buttons/submit-share-buttons.component';
 import { DescriptionEditorComponent } from './settings/general-settings/description-editor/description-editor.component';
 import { ElementLoginLinkSelectorComponent } from '../elements/element-login-link-selector/element-login-link-selector.component';
+import { ImportRunDialogComponent } from './submit/import-run-dialog/import-run-dialog.component';
 import {NgOptgroupTemplateDirective, NgOptionComponent, NgOptionTemplateDirective, NgSelectComponent} from '@ng-select/ng-select';
 import {themesResolver} from '../resolvers/themes.resolver';
 
@@ -248,6 +249,7 @@ const marathonRoutes: Routes = [
     SubmitHeaderComponent,
     SubmitMultiplayerJoinComponent,
     SubmitShareButtonsComponent,
+    ImportRunDialogComponent,
   ],
   imports: [
     CommonModule,
