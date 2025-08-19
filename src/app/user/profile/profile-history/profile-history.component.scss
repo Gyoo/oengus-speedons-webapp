@@ -2,14 +2,13 @@
 
 :host {
   padding-block: var(--spacing);
-  display: block;
 }
 
 .tabs {
   margin: 0;
 
   li a {
-    background-color: minty.$grey-dark;
+    background-color: minty.$grey-lighter;
   }
 
   li.is-active a {
@@ -18,13 +17,9 @@
   }
 }
 
-.is-loader {
-  padding: var(--spacing);
-}
-
 .history-view-container {
-  border-color: minty.$grey-dark;
+  border-color: minty.$grey-lighter;
   border-style: solid;
   border-width: 0 2px 2px;
-  //padding: var(--spacing);
+  padding: var(--spacing);
 }

@@ -15,7 +15,7 @@
     {{ 'marathon.submissions.table.status' | translate }}
   </app-element-table-cell>
 
-  @for (marathon of submissions; track marathon.marathonId) {
+  @for (marathon of submissions; track marathon) {
     @if (getCategories(marathon).length) {
       <app-element-table-cell class="marathon"  [class]="getCellColor(marathon)" [rowEnd]="getSpan(marathon)">
         <span>
@@ -24,13 +24,13 @@
         </span>
       </app-element-table-cell>
     }
-    @for (game of marathon.games; track game.id) {
+    @for (game of marathon.games; track game) {
       @if (getCategories(game).length) {
         <app-element-table-cell class="game" [class]="getCellColor(game)" [rowEnd]="getSpan(game)">
           {{ game.name }}
         </app-element-table-cell>
       }
-      @for (category of game.categories; track category.id) {
+      @for (category of game.categories; track category) {
         <app-element-table-cell class="category" [class]="getCellColor(category)">
           {{ category.name }}
         </app-element-table-cell>

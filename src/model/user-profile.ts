@@ -10,5 +10,4 @@ export class UserProfile {
   connections: SocialAccount[];
   country: string;
   banned: boolean;
-  savedGamesPublic: boolean;
 }

@@ -1,11 +1,6 @@
 <h1 class="title">{{ 'marathon.submit.title' | translate }}</h1>
 
-<app-import-run-dialog
-  [modalActive]="importDialogOpen"
-  [savedGames]="savedGames"
-  (cancel)="importCanceled()"
-  (doImport)="startImport($event)"
-/>
+<hr/>
 
 <div class="modal" [ngClass]="{ 'is-active': discordRequired }">
   <div class="modal-background"></div>
@@ -58,13 +53,14 @@
 
 <app-submit-header/>
 
+<hr/>
+
 @if (!marathonService.marathon.submitsOpen) {
   <div class="notification is-info">
     {{ 'marathon.submit.submitsClosed' | translate }}
   </div>
 }
 
-<!-- TODO: pain, split this up into components -->
 <form ngForm="submitForm" (ngSubmit)="submit()" #form="ngForm">
   <h3 class="title is-3">{{ 'marathon.submit.availabilities.label' | translate }} <br/>
     <span class="is-size-6" [innerHTML]="'footer.text' | translate:{'timezone': timezone}"></span>
@@ -278,23 +274,12 @@
 
     <div class="box is-relative">
       <p class="is-pulled-left">{{ 'marathon.submit.table.games' | translate }}</p>
-      <div class="buttons">
-        <button type="button" class="button is-small is-primary is-pulled-left addBtn"
+      <button type="button" class="button is-small is-primary is-pulled-left addBtn"
               (click)="addGame()"
-                [disabled]="!marathonService.marathon.unlimitedGames && categoriesLength >=
+              [disabled]="!marathonService.marathon.unlimitedGames && categoriesLength >=
                     marathonService.marathon.maxGamesPerRunner">
-          <fa-icon [icon]="faPlus"></fa-icon>
-        </button>
-        <button
-          type="button"
-          class="button is-small is-info is-pulled-left"
-          (click)="importDialogOpen = true"
-          [disabled]="!marathonService.marathon.unlimitedGames && submission.games.length >= marathonService.marathon.maxGamesPerRunner"
-        >
-          <fa-icon [icon]="faImport"/>
-          <span>Import saved games</span>
-        </button>
-      </div>
+        <fa-icon [icon]="faPlus"></fa-icon>
+      </button>
       <div class="is-clearfix"></div>
 
       @for (game of submission.games; track game; let i = $index) {
@@ -444,7 +429,7 @@
             </button>
           }
         </p>
-        <hr class="has-background-grey-darker"/>
+        <hr class="has-background-grey-lighter"/>
         <div class="columns is-multiline">
           @for (category of game.categories; track category; let j = $index) {
             <!-- TODO: make half width [ngClass]="{ 'is-half': (game.categories.length > 1) }", figure out button -->
@@ -530,7 +515,12 @@
                         </div>
                         @if (['COOP', 'RELAY'].includes(category.type)) {
                           <div>
-                            @if (category.opponents && category.opponents.length > 0) {
+                            @if (!category.code) {
+                                <p class="help">
+                                  {{'marathon.submit.category.code.help.noCode' | translate}}
+                                </p>
+                              }
+                              @if (category.opponents && category.opponents.length > 0) {
                               <p class="help"
                               >{{
                                   'marathon.submit.category.opponent.with' |
@@ -547,12 +537,9 @@
                               </p>
                             }
                             @if (category.code) {
-                              <p >
+                              <p class="help">
                                 {{ 'marathon.submit.category.code.help.withCode' | translate }}
-                                <b>{{ category.code }}</b></p>} @else {
-                                <p>
-                                  {{'marathon.submit.category.code.help.noCode' | translate}}
-                                </p>
+                                <b>{{ category.code }}</b></p>
                             }
                           </div>
                         }
@@ -691,7 +678,7 @@
             <fa-icon [icon]="faPlus"></fa-icon>
           </button>
         </p>
-        <hr class="has-background-grey-darker"/>
+        <hr class="has-background-grey-lighter"/>
         <div class="columns is-multiline">
           @for (incentive of game.incentives; track incentive; let j = $index) {
             <div class="column is-full">

@@ -1,7 +1,10 @@
+@use 'src/assets/themes/minty/variables' as minty;
+
 :host {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  border-block: 1px solid;
+  border-block: 1px solid minty.$grey-lighter;
+  margin-bottom: 1rem;
 }

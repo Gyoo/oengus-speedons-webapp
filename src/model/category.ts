@@ -6,7 +6,7 @@ export class Category {
   name: string;
   estimate: string;
   /**
-   * @deprecated use the service to convert on blur
+   * @deprecated use the component
    */
   estimateHuman: string;
   description: string;

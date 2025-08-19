@@ -27,7 +27,6 @@ export class User implements BasicUserInfo {
   twitterId: string;
   twitchId: string;
   patreonId: string;
-  savedGamesPublic: boolean;
 }
 
 export interface SelfUser extends BasicUserInfo {
@@ -48,7 +47,6 @@ export interface SelfUser extends BasicUserInfo {
 
   createdAt: string;
   lastLogin: string;
-  savedGamesPublic: boolean;
 }
 
 export interface UserSupporterStatus {
