@@ -61,7 +61,7 @@
   </div>
 }
 
-<form ngForm="submitForm" (ngSubmit)="submit()" #form="ngForm">
+<form ngForm="submitForm" (ngSubmit)="submit(true)" #form="ngForm">
   <h3 class="title is-3">{{ 'marathon.submit.availabilities.label' | translate }} <br/>
     <span class="is-size-6" [innerHTML]="'footer.text' | translate:{'timezone': timezone}"></span>
     <button type="submit" class="button is-primary is-pulled-right" [ngClass]="{'is-loading': loading}"
@@ -840,3 +840,56 @@
     </div>
   }
 </form>
+
+<div class="modal" [ngClass]="{ 'is-active': estimateChecks.length > 0 }">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Vérification des estimations</p>
+    </header>
+    <section class="modal-card-body">
+      <p>La ou les catégories suivantes semblent avoir une estimation très haute. Veuillez vérifier que vous n'avez pas confondu heures et minutes. Si tout est correct, cliquez sur {{'action.submit' | translate }}. Sinon, annulez et modifiez votre candidature.</p>
+      <br>
+      <ul>
+        @for (estimate of estimateChecks; track estimate){
+          <li>{{estimate.game}} - {{estimate.category}} : <b>{{estimate.estimate}}</b></li>
+        }
+      </ul>
+
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success"
+              (click)="submit(false)">
+        {{'action.submit' | translate }}
+      </button>
+      <button class="button" (click)="estimateChecks = []">
+        {{'action.cancel' | translate }}
+      </button>
+    </footer>
+  </div>
+</div>
+
+<div class="modal" [ngClass]="{ 'is-active': showMultiplayerCodes }">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Codes multijoueurs</p>
+    </header>
+    <section class="modal-card-body">
+      <p>Voici vos codes pour les catégories multijoueurs que vous avez proposé. Veuillez les partager avec vos partenaires pour compléter la candidature.</p>
+      <br>
+      <ul>
+        @for (code of multiplayerCodes; track code){
+          <li>{{code.game}} - {{code.category}} : <b>{{code.code}}</b></li>
+        }
+      </ul>
+
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success"
+              (click)="showMultiplayerCodes = false">
+        C'est noté !
+      </button>
+    </footer>
+  </div>
+</div>

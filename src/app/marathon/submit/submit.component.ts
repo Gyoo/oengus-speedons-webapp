@@ -48,6 +48,8 @@ export class SubmitComponent implements OnInit {
 
   public isDiscordCheckLoading = false;
   private showDiscordRequirement = true;
+  public showMultiplayerCodes = false;
+  public estimateChecks = [];
   public discordErrors = {
     userNotInGuild: false,
     botNotInGuild: false,
@@ -228,7 +230,8 @@ export class SubmitComponent implements OnInit {
     this.submission.availabilities.splice(index, 1);
   }
 
-  submit() {
+  submit(checkEstimates: boolean) {
+    this.estimateChecks = [];
     if (this.submission.games.find(g => !g.console)) {
       alert('One of your submitted games is missing a console!!');
       return;
@@ -247,6 +250,13 @@ export class SubmitComponent implements OnInit {
     this.submission.games.forEach(game => {
       game.categories.forEach(category => {
         category.estimate = moment.duration(category.estimateHuman).toISOString();
+        if (checkEstimates && moment.duration(category.estimateHuman).hours() > 3){
+          this.estimateChecks.push({
+            game: game.name,
+            category: category.name,
+            estimate: category.estimateHuman
+          });
+        }
 
         // Help the user a little bit
         if (category.type !== 'SINGLE' && category.expectedRunnerCount < 2) {
@@ -258,6 +268,11 @@ export class SubmitComponent implements OnInit {
       });
     });
 
+    if (checkEstimates && this.estimateChecks.length > 0) {
+      this.loading = false;
+      return;
+    }
+
     // @ts-ignore
     delete this.submission.opponentDtos;
 
@@ -266,12 +281,18 @@ export class SubmitComponent implements OnInit {
         this.refresh();
         this.loading = false;
         this.marathonService.marathon.hasSubmitted = true;
+        if (this.multiplayerCodes.length > 0) {
+          this.showMultiplayerCodes = true;
+        }
       });
     } else {
       this.submissionService.update(this.marathonService.marathon.id, this.submission).add(() => {
         this.refresh();
         this.loading = false;
         this.marathonService.marathon.hasSubmitted = true;
+        if (this.multiplayerCodes.length > 0) {
+          this.showMultiplayerCodes = true;
+        }
       });
     }
   }
@@ -363,6 +384,22 @@ export class SubmitComponent implements OnInit {
 
   get title(): string {
     return 'Submit';
+  }
+
+  get multiplayerCodes(): any[] {
+    const codes = [];
+    this.submission.games.forEach(game => {
+      game.categories.forEach(category => {
+        if (category.type !== 'SINGLE') {
+          codes.push({
+            game: game.name,
+            category: category.name,
+            code: category.code
+          });
+        }
+      });
+    });
+    return codes;
   }
 
   clickEmulatorButton(game: Game, event: Event): void {
