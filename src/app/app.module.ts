@@ -84,11 +84,8 @@ const appRoutes: Routes = [
   },
   {
     path: '',
-    component: HomepageComponent,
-    resolve: {
-      homepageMetadata: HomepageMetadataResolver,
-      moderatedMarathons: HomepageModeratedResolver,
-    },
+    redirectTo: '/marathon/speedons6',
+    pathMatch: 'full',
   },
   {
     path: 'calendar',
