@@ -103,13 +103,6 @@ const appRoutes: Routes = [
     component: PrivacyPolicyComponent,
   },
   {
-    path: 'patrons',
-    component: PatronsComponent,
-    resolve: {
-      patrons: PatronsResolver,
-    },
-  },
-  {
     path: '403',
     component: UnauthorizedComponent,
   },

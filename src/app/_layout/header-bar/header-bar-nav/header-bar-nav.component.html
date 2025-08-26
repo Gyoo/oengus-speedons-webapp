@@ -28,7 +28,7 @@
 
 
   <div class="navbar-end">
-    @if (userService.user && !userService.isBanned()) {
+    @if (userService.user && userService.isAdmin()) {
       <div class="navbar-item">
         <button class="button is-primary" [routerLink]="'/marathon/new' | localize">
           {{'navbar.createMarathon' | translate}}

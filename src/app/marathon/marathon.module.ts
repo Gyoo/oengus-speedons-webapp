@@ -78,6 +78,7 @@ import { DescriptionEditorComponent } from './settings/general-settings/descript
 import { ElementLoginLinkSelectorComponent } from '../elements/element-login-link-selector/element-login-link-selector.component';
 import {NgOptgroupTemplateDirective, NgOptionComponent, NgOptionTemplateDirective, NgSelectComponent} from '@ng-select/ng-select';
 import {themesResolver} from '../resolvers/themes.resolver';
+import {isAdminGuardGuard} from '../guards/is-admin-guard.guard';
 
 const marathonRoutes: Routes = [
   {
@@ -85,6 +86,7 @@ const marathonRoutes: Routes = [
     component: NewMarathonComponent,
     canActivate: [
       isEmailVerifiedGuardGuard,
+      isAdminGuardGuard,
     ],
   },
   {
