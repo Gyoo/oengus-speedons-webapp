@@ -21,11 +21,11 @@ export const environment = {
   // patronApi: 'http://localhost:9000',
   patronApi: 'https://oengus.io/api/patreon',
   twitterClientId: 'Z0Zta2JiTjNLQU5iNHlBbGcyLUI6MTpjaQ',
-  twitchClientId: 'c3539b9q6x4ba7pomwa9fj1cs2culy',
+  twitchClientId: '7orlymdydp1t85kd9h6kxht107gxag',
   // these two get the service name appended to it (eg twitch, twitter, discord)
   loginRedirect: 'http://localhost:4200/login/',
   syncRedirect: 'http://localhost:4200/user/settings/sync/',
-  discordClientId: '931093356006768681', // oengus test
+  discordClientId: '1405833220687400991', // oengus test
   paypalClientId: 'AV9-0fSGWREDWpnMJujrHUbDIibragMgE4-4HuAS-WQPlgHSRyfeU5iqNyiQwLEGZFEKhAiERJdv80a4',
   patreonClientId: 'qXKJ92UNMBtSTV_N0TN47U6l1o2_VXWmqK3u9_Gv3RXIJuiJ0LTpDyzbl5XZuARH',
   // v2Domain: 'https://v2.oengus.dev/',

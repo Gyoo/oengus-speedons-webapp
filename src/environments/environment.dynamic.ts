@@ -5,7 +5,7 @@ export const environment = {
   // shortUrl: 'https://oengus.fun',
   shortUrl: 'https://short.oengus.dev',
   twitterClientId: 'WXg5Q1R5a05TX1VMNm5CNlJjYk46MTpjaQ', // oengus test
-  twitchClientId: 'c3539b9q6x4ba7pomwa9fj1cs2culy', // oengus test
+  twitchClientId: '7orlymdydp1t85kd9h6kxht107gxag', // oengus test
   discordClientId: '1405833220687400991', // oengus test
   patreonClientId: 'qXKJ92UNMBtSTV_N0TN47U6l1o2_VXWmqK3u9_Gv3RXIJuiJ0LTpDyzbl5XZuARH',
 

@@ -9,8 +9,8 @@ export const environment = {
   },
   api: 'https://oengus.io/api',
   twitterClientId: 'Z0Zta2JiTjNLQU5iNHlBbGcyLUI6MTpjaQ',
-  twitchClientId: 'lsaqyn1omrou7dq2l12m0l865xyjsh',
-  discordClientId: '559625844197163008',
+  twitchClientId: '7orlymdydp1t85kd9h6kxht107gxag',
+  discordClientId: '1405833220687400991',
   paypalClientId: 'AfkLlDPvmM0v1914bih8VN0x0LZps-jkjdz-A7ydiJ0RVPdaAC730VWtVkTWaXZauBYVs3UbaoRHc6VH',
   patreonClientId: 'qXKJ92UNMBtSTV_N0TN47U6l1o2_VXWmqK3u9_Gv3RXIJuiJ0LTpDyzbl5XZuARH',
   get loginRedirect() {
