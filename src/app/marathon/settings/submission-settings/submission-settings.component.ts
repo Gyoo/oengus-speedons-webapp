@@ -5,6 +5,7 @@ import { MarathonSettings } from '../../../../model/marathon';
 import { Question } from '../../../../model/question';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import {Theme} from '../../../../model/theme';
+import {environment} from '../../../../environments/environment';
 
 @Component({
     selector: 'app-marathon-submission-settings',
@@ -34,7 +35,7 @@ export class SubmissionSettingsComponent implements OnInit {
   public faTimes = faTimes;
   public faPlus = faPlus;
   public faBars = faBars;
-  public botInvite = 'https://discord.com/oauth2/authorize?client_id=559625844197163008&permissions=68608&scope=bot';
+  public botInvite = `https://discord.com/oauth2/authorize?client_id=${environment.api}&permissions=68608&scope=bot`;
 
   public loadingDiscordCheck = false;
   public sectionName: string;

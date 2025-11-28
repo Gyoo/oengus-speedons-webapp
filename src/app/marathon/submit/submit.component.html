@@ -169,6 +169,16 @@
   <fieldset [disabled]="!marathonService.marathon.submitsOpen">
     @if (submission.answers?.length > 0) {
       <h3 class="title is-3">{{ 'marathon.submit.details' | translate }}</h3>
+      <div class="field">
+        <label class="label">Ceci est l'adresse email de votre profil. Elle sera utilisée pour vous transmettre des informations durant les différentes phases d'organisation de l'événement. Veuillez vérifier qu'il s'agit bien d'une adresse email valide et que vous consultez. Si ce n'est pas le cas, merci de la <a [routerLink]="'/user/settings' | localize">modifier dans vos paramètres de profil</a>.</label>
+        <div class="control">
+          <input class="input"
+                 type="text"
+                 [value]="userService.user?.email"
+                 name="email"
+          [disabled]="true">
+        </div>
+      </div>
       @for (answer of submission.answers; track answer; let i = $index) {
         <div class="field">
           @if (answer.question.fieldType !== 'CHECKBOX') {

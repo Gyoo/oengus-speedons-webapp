@@ -1,7 +1,20 @@
 @import 'bulma/sass/utilities/initial-variables';
-@import 'bulma/sass/utilities/derived-variables';
 @import 'bulmaswatch/minty/variables';
 
+$primary: rgb(221, 221, 221);
+$danger: #ff7924;
+
+@import 'bulma/sass/utilities/derived-variables';
 $border-width: 1px;
 $table-striped-row-even-background-color: $grey-lighter;
+
+$navbar-background-color: rgb(173, 11, 237);
+$navbar-item-color: white !important;
+$link-hover: #999999;
+
+$navbar-burger-color: black;
+
+$box-background-color: #F9F9F9;
+$table-background-color: #F9F9F9;
+
 

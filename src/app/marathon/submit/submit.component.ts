@@ -58,7 +58,7 @@ export class SubmitComponent implements OnInit {
   constructor(public submissionService: SubmissionService,
               public marathonService: MarathonService,
               private translateService: TranslateService,
-              private userService: UserService,
+              public userService: UserService,
               private toastr: NwbAlertService,
               private route: ActivatedRoute,
               private http: HttpClient,
