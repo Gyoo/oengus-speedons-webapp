@@ -22,8 +22,4 @@ export class UserProfileComponent implements OnInit {
     return this.user as User;
   }
 
-  get avatarUrl(): string {
-    return `${environment.api}/v2/users/${this.user.username}/avatar`;
-  }
-
 }

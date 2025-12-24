@@ -1,7 +1,7 @@
 @for (submission of submissions$ | async; track submission) {
   <div class="box">
     <h4 class="title is-4">
-      <app-user-link [user]="submission.user" [isLink]="true" [showAvatar]="true"></app-user-link>
+      <app-user-link [user]="submission.user" [isLink]="true"></app-user-link>
       @if (showDelete) {
         <app-delete-button
           [baseText]="'marathon.submissions.submission.delete' | translate"

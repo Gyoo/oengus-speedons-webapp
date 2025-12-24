@@ -29,7 +29,6 @@ import { WelcomeComponent } from './homepage/welcome/welcome.component';
 import { SponsorsComponent } from './homepage/sponsors/sponsors.component';
 import { MarathonsComponent } from './homepage/marathons/marathons.component';
 import { FooterBarComponent } from './_layout/footer/footer-bar/footer-bar.component';
-import { FooterPatronsComponent } from './_layout/footer/footer-patrons/footer-patrons.component';
 import { ElementModule } from './elements/elements.module';
 import { MarathonCalendarContainerComponent } from './calendar/marathon-calendar-container/marathon-calendar-container.component';
 import { CalendarControllerComponent } from './calendar/calendar-controller/calendar-controller.component';
@@ -123,7 +122,6 @@ const appRoutes: Routes = [
     SponsorsComponent,
     MarathonsComponent,
     FooterBarComponent,
-    FooterPatronsComponent,
     MarathonCalendarContainerComponent,
     CalendarControllerComponent,
     CalendarViewScheduleComponent,

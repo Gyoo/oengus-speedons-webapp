@@ -122,14 +122,6 @@
     </div>
 
     <div class="field">
-      <label class="label" for="pfp">{{ 'user.settings.profilePicture.label' | translate }}</label>
-      <div class="control">
-        <a href="https://gravatar.com/" target="_blank" class="button is-info" id="pfp">{{ 'user.settings.profilePicture.button' | translate }}</a>
-      </div>
-      <p class="help" [innerHTML]="'user.settings.email.help' | translate"></p>
-    </div>
-
-    <div class="field">
       <label for="enable-2fa" class="label">{{ 'user.settings.mfa.label' | translate }}</label>
       <div class="control">
         @if (user.mfaEnabled) {

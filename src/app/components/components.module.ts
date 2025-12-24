@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PatronListComponent } from './patron-list/patron-list.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { SidebarOverviewComponent } from './marathon-sidebar-overview/sidebar-overview.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -17,7 +16,6 @@ import { ElementLoginLinkSelectorComponent } from '../elements/element-login-lin
 
 @NgModule({
   declarations: [
-    PatronListComponent,
     SidebarOverviewComponent,
     OengusMdComponent,
     WidgetSigninPickerComponent,
@@ -26,7 +24,6 @@ import { ElementLoginLinkSelectorComponent } from '../elements/element-login-lin
   ],
   exports: [
     OengusMdComponent,
-    PatronListComponent,
     SidebarOverviewComponent,
     WidgetSigninPickerComponent,
     SimpleMdComponent,

@@ -14,15 +14,10 @@ export class UserLinkComponent {
   @Input() username = '';
   @Input() target = '_self';
   @Input() isLink = false;
-  @Input() showAvatar = false;
 
   get userId(): string {
     // @ts-expect-error I need to fix the type checks here.
     return this?.user?.username ?? this?.user?.profile?.username ?? this.username;
-  }
-
-  get avatarUrl(): string {
-    return `${environment.api}/v2/users/${this.userId}/avatar`;
   }
 
   get displayName(): string {

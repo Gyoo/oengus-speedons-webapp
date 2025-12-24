@@ -1,7 +1,3 @@
-@if (showAvatar) {
-  <img [src]="avatarUrl" alt="Profile image" />
-}
-
 @if (isLink) {
   <a [routerLink]="'/user/' + userId | localize" [target]="target">{{ displayName }}</a>
 } @else {

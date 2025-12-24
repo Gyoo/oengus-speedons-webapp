@@ -39,7 +39,7 @@
               @if (i > 0) {
                 <span>, </span>
               }
-              <app-user-link [user]="opponent.user" [isLink]="true" [showAvatar]="true"></app-user-link>
+              <app-user-link [user]="opponent.user" [isLink]="true"></app-user-link>
               @if (opponent.video) {
                 <a [href]="opponent.video" target="_blank" aria-label="Video">
                   <span class="icon" title="Click to watch the runner's submission video">
