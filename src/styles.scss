@@ -4,13 +4,22 @@
 
 @use './assets/themes/default' as theme;
 
-
-// @font-face {
-//   font-family: 'OpenDyslectic';
-//   src: url('/assets/fonts/OpenDyslectic/OpenDyslexic-Regular.woff2') format('woff2');
-// }
+@font-face {
+  font-family: 'Lexend';
+  src: url('/assets/fonts/Lexend-VariableFont_wght.woff2') format('woff2');
+}
 
 * {
+  font-family:
+    'Lexend',
+    'Source Sans Pro',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    sans-serif !important;
   // Controls how far stuff is apart from each other.
   // Matches the Bulma box padding so that we can have consistent spacing
   // We're using CSS variables over SASS variables so it can be changed on the fly as needed
@@ -23,15 +32,6 @@
 // <editor-fold desc="v2 default layout" defaultstate="collapsed">
 
 html {
-  font-family:
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
   font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
