@@ -250,7 +250,7 @@ export class SubmitComponent implements OnInit {
     this.submission.games.forEach(game => {
       game.categories.forEach(category => {
         category.estimate = moment.duration(category.estimateHuman).toISOString();
-        if (checkEstimates && moment.duration(category.estimateHuman).hours() > 3){
+        if (checkEstimates && moment.duration(category.estimateHuman).asHours() > 3){
           this.estimateChecks.push({
             game: game.name,
             category: category.name,
