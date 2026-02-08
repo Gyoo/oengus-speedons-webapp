@@ -2,7 +2,7 @@
 
 <hr/>
 
-<div class="modal" [ngClass]="{ 'is-active': discordRequired }">
+<div class="modal" [ngClass]="{ 'is-active': false }">
   <div class="modal-background"></div>
   <div class="modal-card">
     <header class="modal-card-head">
@@ -701,12 +701,10 @@
               <div class="column is-full">
                 <article class="message">
                   <div class="message-body">
-                    @if (game.incentives.length > 1) {
-                      <button class="delete is-absolute"
-                              [style]="'right: 25px;'"
-                              (click)="removeIncentive(i, j)"
-                      ></button>
-                    }
+                    <button class="delete is-absolute"
+                            [style]="'right: 25px;'"
+                            (click)="removeIncentive(i, j)"
+                    ></button>
                     <div class="columns is-multiline">
                       <div class="column is-4">
                         <div class="field">
